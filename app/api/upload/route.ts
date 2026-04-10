@@ -1,6 +1,13 @@
 import cloudinary from '@/lib/config/cloudinary'
+import { getAdminSession } from '@/lib/auth'
 
 export async function POST(request: Request) {
+  const session = await getAdminSession()
+
+  if (!session) {
+    return Response.json({ success: false, error: 'Unauthorized' }, { status: 401 })
+  }
+
   try {
     const formData = await request.formData()
     const file = formData.get('file')

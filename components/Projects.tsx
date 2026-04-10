@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
-import type { Project } from '@/app/page'
+import Link from 'next/link'
+import type { Project } from '@/types/project'
 
 interface ProjectsProps {
   projects: Project[]
@@ -155,21 +156,19 @@ function ProjectCard({ project }: { project: Project }) {
 
         {project.techStack?.length > 0 && (
           <div className="project-tech">
-            {project.techStack.map((tech) => (
+            {project.techStack.slice(0, 4).map((tech) => (
               <span key={tech} className="tech-tag">{tech}</span>
             ))}
           </div>
         )}
 
-        <a
-          href={project.liveUrl}
-          target="_blank"
-          rel="noopener noreferrer"
+        <Link
+          href={`/projects/${project._id}`}
           className="btn-primary"
           style={{ marginTop: '8px', justifyContent: 'center', width: '100%' }}
         >
-          Төслийг үзэх
-        </a>
+          Дэлгэрэнгүй үзэх
+        </Link>
       </div>
     </article>
   )

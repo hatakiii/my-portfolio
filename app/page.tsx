@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
 import About from '@/components/About'
@@ -8,21 +8,7 @@ import Projects from '@/components/Projects'
 import Experience from '@/components/Experience'
 import Contact from '@/components/Contact'
 import Footer from '@/components/Footer'
-
-export interface Project {
-  _id: string
-  title: string
-  description: string
-  longDescription: string
-  liveUrl: string
-  githubUrl?: string
-  techStack: string[]
-  category: string
-  featured: boolean
-  imageUrl?: string
-  imagePublicId?: string
-  order: number
-}
+import type { Project } from '@/types/project'
 
 export default function Home() {
   const [projects, setProjects] = useState<Project[]>([])

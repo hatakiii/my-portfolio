@@ -12,6 +12,13 @@ export interface IProject extends Document {
   imageUrl?: string
   imagePublicId?: string
   order: number
+  duration: string
+  teamSize: number
+  developerCount: number
+  myRole: string
+  githubContributions: number
+  contributionsSummary: string
+  outcomes: string[]
   createdAt: Date
   updatedAt: Date
 }
@@ -29,6 +36,13 @@ const ProjectSchema: Schema = new Schema(
     imageUrl: { type: String, default: '' },
     imagePublicId: { type: String, default: '' },
     order: { type: Number, default: 0 },
+    duration: { type: String, default: '' },
+    teamSize: { type: Number, default: 1 },
+    developerCount: { type: Number, default: 1 },
+    myRole: { type: String, default: '' },
+    githubContributions: { type: Number, default: 0 },
+    contributionsSummary: { type: String, default: '' },
+    outcomes: [{ type: String }],
   },
   { timestamps: true }
 )

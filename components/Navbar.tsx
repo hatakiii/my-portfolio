@@ -55,7 +55,7 @@ export default function Navbar() {
           ))}
         </ul>
         <Link href="/admin" className="btn-outline btn-sm">
-          Admin
+          Нэвтрэх
         </Link>
       </div>
     </nav>

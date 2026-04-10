@@ -1,4 +1,5 @@
 import dbConnect from '@/lib/mongodb'
+import { getAdminSession } from '@/lib/auth'
 import Project from '@/models/Project'
 
 export async function GET() {
@@ -13,6 +14,12 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  const session = await getAdminSession()
+
+  if (!session) {
+    return Response.json({ success: false, error: 'Unauthorized' }, { status: 401 })
+  }
+
   try {
     await dbConnect()
     const body = await request.json()

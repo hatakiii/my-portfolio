@@ -26,8 +26,8 @@ export default function Hero() {
 
             <h1 className="hero-title">
               Хийсэн ажлуудаа
-              <span className="gradient-text"> цэвэр, цайвар</span>
-              орчинд харуулдаг portfolio
+              <span className="gradient-text"> амьд, өөрийн өнгөтэй</span>
+              байдлаар харуулдаг portfolio
             </h1>
 
             <p className="hero-subtitle">
