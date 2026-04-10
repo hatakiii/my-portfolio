@@ -20,6 +20,7 @@ export interface Project {
   category: string
   featured: boolean
   imageUrl?: string
+  imagePublicId?: string
   order: number
 }
 

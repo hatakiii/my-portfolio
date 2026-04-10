@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import Image from 'next/image'
 import type { Project } from '@/app/page'
 
 interface ProjectsProps {
@@ -36,15 +37,15 @@ export default function Projects({ projects, loading }: ProjectsProps) {
     filter === 'Бүгд' ? projects : projects.filter((p) => p.category === filter)
 
   return (
-    <section id="projects" className="section" style={{ background: 'rgba(13,17,23,0.5)' }}>
+    <section id="projects" className="section section-soft">
       <div className="container">
         <div className="fade-in" ref={ref}>
-          <span className="section-tag">✦ Төслүүд</span>
+          <span className="section-tag">Portfolio</span>
           <h2 className="section-title">
-            Миний <span className="gradient-text">Бүтээлүүд</span>
+            Screenshot-тай <span className="gradient-text">төсөл жагсаалт</span>
           </h2>
           <p className="section-desc">
-            Vercel дээр deploy хийгдсэн live төслүүд. Дарж үзэхэд шууд нэвтэрч болно.
+            Хийсэн ажлуудаа зураг, товч тайлбар, ашигласан технологи, live/demo холбоосын хамт нэг дор харуулж байна.
           </p>
 
           {/* Filters */}
@@ -94,10 +95,29 @@ function ProjectCard({ project }: { project: Project }) {
 
   return (
     <article className="project-card" id={`project-${project._id}`}>
-      {project.featured && <span className="project-featured-badge">⭐ Featured</span>}
+      <div className="project-card-media">
+        {project.featured && <span className="project-featured-badge">Featured</span>}
+        {project.imageUrl ? (
+          <Image
+            src={project.imageUrl}
+            alt={`${project.title} screenshot`}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="project-image"
+          />
+        ) : (
+          <div className="project-image-placeholder">
+            <span>{icon}</span>
+            <p>Screenshot нэмэгдээгүй</p>
+          </div>
+        )}
+      </div>
 
       <div className="project-card-header">
-        <div className="project-icon">{icon}</div>
+        <div>
+          <div className="project-category">{project.category}</div>
+          <h3 className="project-title">{project.title}</h3>
+        </div>
         <div className="project-links">
           {project.githubUrl && (
             <a
@@ -131,8 +151,6 @@ function ProjectCard({ project }: { project: Project }) {
       </div>
 
       <div className="project-card-body">
-        <div className="project-category">{project.category}</div>
-        <h3 className="project-title">{project.title}</h3>
         <p className="project-desc">{project.description}</p>
 
         {project.techStack?.length > 0 && (
@@ -148,9 +166,9 @@ function ProjectCard({ project }: { project: Project }) {
           target="_blank"
           rel="noopener noreferrer"
           className="btn-primary"
-          style={{ marginTop: '8px', width: '100%', justifyContent: 'center' }}
+          style={{ marginTop: '8px', justifyContent: 'center', width: '100%' }}
         >
-          🔗 Шууд үзэх
+          Төслийг үзэх
         </a>
       </div>
     </article>

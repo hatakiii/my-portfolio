@@ -39,23 +39,23 @@ export default function Navbar() {
   ]
 
   return (
-    <nav className="navbar" style={{ background: scrolled ? 'rgba(5,7,9,0.95)' : 'rgba(5,7,9,0.6)' }}>
+    <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
       <div className="container navbar-inner">
-        <a href="#home" className="navbar-logo">KB.</a>
+        <a href="#home" className="navbar-logo">Khatanbaatar</a>
         <ul className="navbar-links">
           {links.map((l) => (
             <li key={l.id}>
               <a
                 href={l.href}
-                style={active === l.id ? { color: 'var(--text-primary)', background: 'var(--bg-glass)' } : {}}
+                className={active === l.id ? 'active' : ''}
               >
                 {l.label}
               </a>
             </li>
           ))}
         </ul>
-        <Link href="/admin" className="btn-primary btn-sm">
-          ⚙ Admin
+        <Link href="/admin" className="btn-outline btn-sm">
+          Admin
         </Link>
       </div>
     </nav>

@@ -10,6 +10,7 @@ export interface IProject extends Document {
   category: string
   featured: boolean
   imageUrl?: string
+  imagePublicId?: string
   order: number
   createdAt: Date
   updatedAt: Date
@@ -26,6 +27,7 @@ const ProjectSchema: Schema = new Schema(
     category: { type: String, default: 'Web App' },
     featured: { type: Boolean, default: false },
     imageUrl: { type: String, default: '' },
+    imagePublicId: { type: String, default: '' },
     order: { type: Number, default: 0 },
   },
   { timestamps: true }

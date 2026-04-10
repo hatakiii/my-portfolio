@@ -1,4 +1,5 @@
 import dbConnect from '@/lib/mongodb'
+import cloudinary from '@/lib/config/cloudinary'
 import Project from '@/models/Project'
 
 export async function PUT(
@@ -9,10 +10,21 @@ export async function PUT(
     await dbConnect()
     const { id } = await params
     const body = await request.json()
-    const project = await Project.findByIdAndUpdate(id, body, { new: true, runValidators: true })
-    if (!project) {
+    const existingProject = await Project.findById(id)
+
+    if (!existingProject) {
       return Response.json({ success: false, error: 'Project not found' }, { status: 404 })
     }
+
+    if (
+      existingProject.imagePublicId &&
+      body.imagePublicId &&
+      existingProject.imagePublicId !== body.imagePublicId
+    ) {
+      await cloudinary.uploader.destroy(existingProject.imagePublicId)
+    }
+
+    const project = await Project.findByIdAndUpdate(id, body, { new: true, runValidators: true })
     return Response.json({ success: true, data: project })
   } catch (error) {
     console.error('PUT /api/projects/[id] error:', error)
@@ -31,6 +43,11 @@ export async function DELETE(
     if (!project) {
       return Response.json({ success: false, error: 'Project not found' }, { status: 404 })
     }
+
+    if (project.imagePublicId) {
+      await cloudinary.uploader.destroy(project.imagePublicId)
+    }
+
     return Response.json({ success: true, data: {} })
   } catch (error) {
     console.error('DELETE /api/projects/[id] error:', error)
