@@ -28,15 +28,27 @@ export default async function ProjectDetailPage({
 
         <section className="project-detail-hero">
           <div className="project-detail-copy">
+            <p className="project-detail-eyebrow">Project overview</p>
             <p className="project-category">{project.category}</p>
             <h1 className="project-detail-title">{project.title}</h1>
             <p className="project-detail-description">{project.longDescription || project.description}</p>
 
             <div className="project-detail-actions">
-              <a href={project.liveUrl} target="_blank" rel="noreferrer" className="btn-primary">Live хувилбар</a>
+              <a href={project.liveUrl} target="_blank" rel="noreferrer" className="btn-primary">Төслийг үзэх</a>
               {project.githubUrl && (
                 <a href={project.githubUrl} target="_blank" rel="noreferrer" className="btn-outline">GitHub</a>
               )}
+            </div>
+
+            <div className="project-detail-quick-info">
+              <div className="project-quick-item">
+                <span className="project-meta-label">Формат</span>
+                <strong>Portfolio case study</strong>
+              </div>
+              <div className="project-quick-item">
+                <span className="project-meta-label">Танилцах төрөл</span>
+                <strong>Дэлгэрэнгүй + live холбоос</strong>
+              </div>
             </div>
           </div>
 
@@ -76,6 +88,11 @@ export default async function ProjectDetailPage({
 
         <section className="project-detail-sections">
           <article className="project-detail-card">
+            <h2>Төслийн тухай</h2>
+            <p>{project.description}</p>
+          </article>
+
+          <article className="project-detail-card">
             <h2>Миний роль</h2>
             <p>{project.myRole || 'Оруулаагүй'}</p>
           </article>
@@ -105,6 +122,15 @@ export default async function ProjectDetailPage({
             ) : (
               <p>Үр дүнгийн мэдээлэл оруулаагүй.</p>
             )}
+          </article>
+
+          <article className="project-detail-card project-detail-card-wide">
+            <h2>Хэрхэн танилцах вэ?</h2>
+            <p>
+              Энэ хуудас дээр төслийн зорилго, миний оролцоо, ашигласан технологи болон үр дүнг
+              харж болно. Хэрэв бүтээгдэхүүнийг шууд үзэхийг хүсвэл дээрх `Төслийг үзэх` товчоор
+              live/demo хувилбар руу орно.
+            </p>
           </article>
         </section>
       </div>

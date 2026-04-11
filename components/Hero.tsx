@@ -1,15 +1,15 @@
-'use client'
+"use client";
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef } from "react";
 
 export default function Hero() {
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    setTimeout(() => el.classList.add('visible'), 100)
-  }, [])
+    const el = ref.current;
+    if (!el) return;
+    setTimeout(() => el.classList.add("visible"), 100);
+  }, []);
 
   return (
     <section id="home" className="hero">
@@ -19,22 +19,11 @@ export default function Hero() {
       <div className="container">
         <div className="hero-layout fade-in" ref={ref}>
           <div className="hero-content">
-            <div className="hero-badge">
-              <span className="hero-badge-dot" />
-              Screenshot төвтэй portfolio
-            </div>
-
             <h1 className="hero-title">
-              Хийсэн ажлуудаа
-              <span className="gradient-text"> амьд, өөрийн өнгөтэй</span>
-              байдлаар харуулдаг portfolio
+              Сайн байна уу! Би бол{" "}
+              <span className="highlight">Хатанбаатар</span>, full stack
+              хөгжүүлэгч.
             </h1>
-
-            <p className="hero-subtitle">
-              Миний гол анхаарал бол бодитоор хийсэн төслүүдээ screenshot, ашигласан технологи,
-              live холбоосын хамт ойлгомжтой байдлаар харуулах. Next.js, React, Node.js,
-              MongoDB ашиглан full stack бүтээгдэхүүнүүд хөгжүүлдэг.
-            </p>
 
             <div className="hero-actions">
               <a href="#projects" className="btn-primary">
@@ -84,11 +73,14 @@ export default function Hero() {
 
             <div className="hero-showcase-note">
               <strong>Admin panel</strong>
-              <p>Төслийн screenshot-оо upload хийгээд Cloudinary-д хадгалж, нүүр хуудсан дээрээ шууд жагсааж харуулна.</p>
+              <p>
+                Төслийн screenshot-оо upload хийгээд Cloudinary-д хадгалж, нүүр
+                хуудсан дээрээ шууд жагсааж харуулна.
+              </p>
             </div>
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }

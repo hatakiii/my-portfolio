@@ -12,15 +12,6 @@ interface ProjectsProps {
 
 const CATEGORIES = ['Бүгд', 'Web App', 'E-commerce', 'Dashboard', 'Mobile', 'API', 'Other']
 
-const ICONS: Record<string, string> = {
-  'Web App': '🌐',
-  'E-commerce': '🛒',
-  'Dashboard': '📊',
-  'Mobile': '📱',
-  'API': '⚡',
-  'Other': '✨',
-}
-
 export default function Projects({ projects, loading }: ProjectsProps) {
   const [filter, setFilter] = useState('Бүгд')
   const ref = useRef<HTMLDivElement>(null)
@@ -43,13 +34,13 @@ export default function Projects({ projects, loading }: ProjectsProps) {
         <div className="fade-in" ref={ref}>
           <span className="section-tag">Portfolio</span>
           <h2 className="section-title">
-            Screenshot-тай <span className="gradient-text">төсөл жагсаалт</span>
+            Хийсэн ажлуудаа <span className="gradient-text">цэгцтэй жагсаасан</span> portfolio
           </h2>
           <p className="section-desc">
-            Хийсэн ажлуудаа зураг, товч тайлбар, ашигласан технологи, live/demo холбоосын хамт нэг дор харуулж байна.
+            Төсөл бүр screenshot, товч танилцуулга, технологийн стек болон шууд үзэх холбоостой.
+            Картаас дэлгэрэнгүй танилцах эсвэл live/demo руу орох боломжтой.
           </p>
 
-          {/* Filters */}
           <div className="projects-filters">
             {CATEGORIES.map((cat) => (
               <button
@@ -63,7 +54,6 @@ export default function Projects({ projects, loading }: ProjectsProps) {
             ))}
           </div>
 
-          {/* Grid */}
           {loading ? (
             <div className="projects-grid">
               {Array.from({ length: 3 }).map((_, i) => (
@@ -75,7 +65,7 @@ export default function Projects({ projects, loading }: ProjectsProps) {
               <div style={{ fontSize: '3rem', marginBottom: '16px' }}>🔍</div>
               <p>Энэ ангилалд төсөл олдсонгүй.</p>
               <p style={{ fontSize: '0.85rem', marginTop: '8px' }}>
-                Admin хэсгээс шинэ төсөл нэмнэ үү.
+                Өөр ангилал сонгох эсвэл admin хэсгээс шинэ төсөл нэмнэ үү.
               </p>
             </div>
           ) : (
@@ -92,11 +82,9 @@ export default function Projects({ projects, loading }: ProjectsProps) {
 }
 
 function ProjectCard({ project }: { project: Project }) {
-  const icon = ICONS[project.category] || '✨'
-
   return (
     <article className="project-card" id={`project-${project._id}`}>
-      <div className="project-card-media">
+      <Link href={`/projects/${project._id}`} className="project-card-media">
         {project.featured && <span className="project-featured-badge">Featured</span>}
         {project.imageUrl ? (
           <Image
@@ -108,18 +96,45 @@ function ProjectCard({ project }: { project: Project }) {
           />
         ) : (
           <div className="project-image-placeholder">
-            <span>{icon}</span>
+            <span>{project.category}</span>
             <p>Screenshot нэмэгдээгүй</p>
           </div>
         )}
-      </div>
+      </Link>
 
-      <div className="project-card-header">
-        <div>
-          <div className="project-category">{project.category}</div>
-          <h3 className="project-title">{project.title}</h3>
+      <div className="project-card-body">
+        <div className="project-card-header">
+          <div className="project-card-labels">
+            <span className="project-category">{project.category}</span>
+            {project.featured && <span className="project-status-pill">Онцлох</span>}
+          </div>
+          <Link href={`/projects/${project._id}`} className="project-title-link">
+            <h3 className="project-title">{project.title}</h3>
+          </Link>
         </div>
-        <div className="project-links">
+
+        <p className="project-desc">{project.description}</p>
+
+        {project.techStack?.length > 0 && (
+          <div className="project-tech">
+            {project.techStack.slice(0, 4).map((tech) => (
+              <span key={tech} className="tech-tag">{tech}</span>
+            ))}
+          </div>
+        )}
+
+        <div className="project-card-actions">
+          <Link href={`/projects/${project._id}`} className="project-card-cta project-card-cta-primary">
+            Танилцах
+          </Link>
+          <a
+            href={project.liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="project-card-cta"
+          >
+            Live үзэх
+          </a>
           {project.githubUrl && (
             <a
               href={project.githubUrl}
@@ -134,41 +149,7 @@ function ProjectCard({ project }: { project: Project }) {
               </svg>
             </a>
           )}
-          <a
-            href={project.liveUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="project-link"
-            title="Live Demo"
-            aria-label={`${project.title} live demo`}
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
-              <polyline points="15 3 21 3 21 9"/>
-              <line x1="10" y1="14" x2="21" y2="3"/>
-            </svg>
-          </a>
         </div>
-      </div>
-
-      <div className="project-card-body">
-        <p className="project-desc">{project.description}</p>
-
-        {project.techStack?.length > 0 && (
-          <div className="project-tech">
-            {project.techStack.slice(0, 4).map((tech) => (
-              <span key={tech} className="tech-tag">{tech}</span>
-            ))}
-          </div>
-        )}
-
-        <Link
-          href={`/projects/${project._id}`}
-          className="btn-primary"
-          style={{ marginTop: '8px', justifyContent: 'center', width: '100%' }}
-        >
-          Дэлгэрэнгүй үзэх
-        </Link>
       </div>
     </article>
   )
