@@ -1,15 +1,50 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+
+interface GitHubData {
+  contributionsCollection: {
+    contributionCalendar: {
+      totalContributions: number;
+    };
+  };
+  pullRequests: { totalCount: number };
+  mergedPRs: { totalCount: number };
+  repositoriesContributedTo: { totalCount: number };
+}
 
 export default function Hero() {
-  const ref = useRef<HTMLDivElement>(null);
+  const [githubData, setGithubData] = useState<GitHubData | null>(null);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    setTimeout(() => el.classList.add("visible"), 100);
+    // Fetch GitHub data
+    fetch("/api/github")
+      .then((res) => res.json())
+      .then((json) => {
+        if (json.success) {
+          setGithubData(json.data);
+        }
+      })
+      .catch((err) => console.error("Error fetching github stats:", err));
   }, []);
+
+  const containerVariants: any = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15, delayChildren: 0.1 },
+    },
+  };
+
+  const itemVariants: any = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { type: "spring", stiffness: 80, damping: 20 } 
+    },
+  };
 
   return (
     <section id="home" className="hero">
@@ -17,49 +52,65 @@ export default function Hero() {
       <div className="hero-bg-shape hero-bg-shape-2" />
 
       <div className="container">
-        <div className="hero-layout fade-in" ref={ref}>
-          <div className="hero-content">
-            <div className="hero-badge">
+        <div className="hero-layout">
+          <motion.div 
+            className="hero-content"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <motion.div variants={itemVariants} className="hero-badge">
               <span className="hero-badge-dot" />
               Backend дадлага + Full stack bootcamp
-            </div>
+            </motion.div>
 
-            <h1 className="hero-title">
+            <motion.h1 variants={itemVariants} className="hero-title">
               Backend, frontend, full stack
               <span className="gradient-text"> хөгжүүлэлтэд бэлэн</span>
-            </h1>
+            </motion.h1>
 
-            <p className="hero-subtitle">
+            <motion.p variants={itemVariants} className="hero-subtitle">
               Telcocom дадлага, Pinecone Academy багийн төслүүд, PR review болон
               production workflow туршлагатай junior developer.
-            </p>
+            </motion.p>
 
-            <div className="hero-actions">
+            <motion.div variants={itemVariants} className="hero-actions">
               <a href="#projects" className="btn-primary">
                 Төслүүдийг үзэх
               </a>
               <a href="#contact" className="btn-outline">
                 Холбоо барих
               </a>
-            </div>
+            </motion.div>
 
-            <div className="hero-stats">
+            <motion.div variants={itemVariants} className="hero-stats">
               <div className="hero-stat">
-                <span className="hero-stat-number">4+</span>
-                <span className="hero-stat-label">Багийн төсөл</span>
+                <span className="hero-stat-number">
+                  {githubData ? githubData.repositoriesContributedTo.totalCount : "10+"}
+                </span>
+                <span className="hero-stat-label">Нийт төсөл</span>
               </div>
               <div className="hero-stat">
-                <span className="hero-stat-number">31</span>
-                <span className="hero-stat-label">PR хаасан</span>
+                <span className="hero-stat-number">
+                  {githubData ? githubData.contributionsCollection.contributionCalendar.totalContributions : "500+"}
+                </span>
+                <span className="hero-stat-label">Хувь нэмэр</span>
               </div>
               <div className="hero-stat">
-                <span className="hero-stat-number">30</span>
-                <span className="hero-stat-label">PR review</span>
+                <span className="hero-stat-number">
+                  {githubData ? githubData.mergedPRs.totalCount : "30+"}
+                </span>
+                <span className="hero-stat-label">PR нэгтгэсэн</span>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
-          <div className="hero-showcase">
+          <motion.div 
+            className="hero-showcase"
+            initial={{ opacity: 0, scale: 0.95, x: 20 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.3, type: "spring", stiffness: 70 }}
+          >
             <div className="hero-showcase-card hero-showcase-main">
               <div className="hero-visual">
                 <div className="hero-visual-window">
@@ -76,8 +127,8 @@ export default function Hero() {
                     </div>
                     <div className="hero-visual-main">
                       <div className="hero-visual-panel hero-visual-panel-primary">
-                        <div className="hero-visual-kicker">Current focus</div>
-                        <strong>Shipping features that pass review</strong>
+                        <div className="hero-visual-kicker">Одоогийн фокус</div>
+                        <strong>Review-гээр батлагдсан код бичих</strong>
                         <div className="hero-visual-bars">
                           <span />
                           <span />
@@ -107,29 +158,33 @@ export default function Hero() {
                 </div>
                 <div className="hero-proof-strip">
                   <div className="hero-proof-chip">
-                    <span>Experience</span>
-                    <strong>Telcocom internship</strong>
+                    <span>Туршлага</span>
+                    <strong>Telcocom дадлага</strong>
                   </div>
                   <div className="hero-proof-chip">
-                    <span>Strength</span>
-                    <strong>Fast learner</strong>
+                    <span>Давуу тал</span>
+                    <strong>Хурдан суралцагч</strong>
                   </div>
                   <div className="hero-proof-chip">
-                    <span>Language</span>
+                    <span>Хэл</span>
                     <strong>IELTS 6.5</strong>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="hero-showcase-note">
-              <strong>Recruiter snapshot</strong>
+            <motion.div 
+              className="hero-showcase-note"
+              whileHover={{ scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <strong>Ажилд авагчдад</strong>
               <p>
                 React, Next.js, Node.js, Java/Spring Boot stack дээр хурдан
                 дасан зохицож, review орчинд feature-ээ дуусгаж чадна.
               </p>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </section>
