@@ -3,9 +3,24 @@
 import { useEffect, useRef } from 'react'
 
 const skills = [
-  'Next.js', 'React', 'TypeScript', 'Node.js',
-  'MongoDB', 'PostgreSQL', 'Tailwind CSS', 'REST API',
-  'GraphQL', 'Docker', 'Git', 'Vercel',
+  'JavaScript', 'TypeScript', 'Java', 'React',
+  'Next.js', 'Node.js', 'Spring Boot', 'MongoDB',
+  'PostgreSQL', 'GraphQL', 'Cypress', 'Jest',
+]
+
+const highlights = [
+  {
+    title: 'Career transition',
+    text: 'Анагаахын суурь боловсролоос software development рүү амжилттай шилжиж, хэрэглэгчийн бодит хэрэгцээг ойлгож шийдэл болгодог.',
+  },
+  {
+    title: 'Production mindset',
+    text: 'Staging merge, code review, CI/CD алдаанаас сэргийлэх local build check зэрэг бодит инженерийн урсгал дээр ажилласан.',
+  },
+  {
+    title: 'Team contribution',
+    text: '7 хүнтэй багуудад sprint, standup, PR review орчинд хамтран ажиллаж, feature-ээ эцэс хүртэл хүргэж байсан.',
+  },
 ]
 
 export default function About() {
@@ -29,7 +44,7 @@ export default function About() {
             Хэн бэ би? <span className="gradient-text">Хатанбаатар</span>
           </h2>
           <p className="section-desc">
-            Веб хөгжүүлэлтэд хүсэл зоригтой хандаж, шинэ технологиудыг судлан хэрэглэдэг developer.
+            Хурдан суралцдаг, бодит хэрэгцээг ойлгодог, frontend ба backend аль алинд нь хувь нэмэр оруулдаг хөгжүүлэгч.
           </p>
 
           <div className="about-grid">
@@ -47,19 +62,30 @@ export default function About() {
                   Full Stack Developer
                 </h3>
                 <p className="about-text">
-                  Би орчин үеийн веб технологиудыг ашиглан хэрэглэгчдэд таатай, 
-                  өндөр чанарын вэб програмууд бүтээдэг Full Stack Developer. 
-                  Next.js, React, TypeScript болон MongoDB-г ашиглан end-to-end 
-                  шийдлүүд хэрэгжүүлдэг.
+                  Анагаахын боловсролтой ч гэлээ карьераа software development-д
+                  төвлөрүүлж, Pinecone Academy bootcamp болон бодит дадлагын
+                  хугацаанд веб бүтээгдэхүүн хөгжүүлэлт дээр эрчимтэй өссөн.
+                  Миний хувьд технологи сурахаас илүү хэрэглэгчид үнэхээр хэрэгтэй
+                  шийдэл гаргах нь хамгийн чухал.
                 </p>
               </div>
 
               <div>
                 <p className="about-text">
-                  Хурдан суралцах чадвартай, team-д нийцтэй ажиллаж, deadline-г 
-                  цаг тухайд нь биелүүлдэг. Код бичихдээ цэвэр, засвар хийхэд 
-                  хялбар architectural pattern-уудыг дагаддаг.
+                  React, Next.js, Node.js дээр суурилсан full stack ажилтай
+                  зэрэгцээд Java/Spring Boot-ийг бие даан сурч дадлагын ажлын
+                  production даалгаварт ашигласан. Шинэ stack, шинэ домэйнд
+                  богино хугацаанд дасан зохицож чаддаг нь миний гол давуу тал.
                 </p>
+              </div>
+
+              <div className="about-highlights">
+                {highlights.map((item) => (
+                  <article key={item.title} className="about-highlight-card">
+                    <h4>{item.title}</h4>
+                    <p>{item.text}</p>
+                  </article>
+                ))}
               </div>
 
               <div>
@@ -77,16 +103,11 @@ export default function About() {
               </div>
 
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                <a
-                  href="/resume.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-primary"
-                >
-                  📄 CV татах
-                </a>
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="btn-outline">
+                <a href="https://github.com/hatakiii" target="_blank" rel="noopener noreferrer" className="btn-primary">
                   GitHub →
+                </a>
+                <a href="mailto:hbbaatar@gmail.com" className="btn-outline">
+                  hbbaatar@gmail.com
                 </a>
               </div>
             </div>

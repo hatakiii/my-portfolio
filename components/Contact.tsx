@@ -27,10 +27,10 @@ export default function Contact() {
   }
 
   const contacts = [
-    { icon: '✉️', label: 'Email', value: 'khatanbaatar@example.com', href: 'mailto:khatanbaatar@example.com' },
+    { icon: '✉️', label: 'Email', value: 'hbbaatar@gmail.com', href: 'mailto:hbbaatar@gmail.com' },
+    { icon: '📞', label: 'Утас', value: '+976 9522 1292', href: 'tel:+97695221292' },
     { icon: '📍', label: 'Байршил', value: 'Улаанбаатар, Монгол', href: '#' },
-    { icon: '💼', label: 'LinkedIn', value: 'linkedin.com/in/khatanbaatar', href: 'https://linkedin.com' },
-    { icon: '🐙', label: 'GitHub', value: 'github.com/khatanbaatar', href: 'https://github.com' },
+    { icon: '🐙', label: 'GitHub', value: 'github.com/hatakiii', href: 'https://github.com/hatakiii' },
   ]
 
   return (
@@ -42,8 +42,8 @@ export default function Contact() {
             Ажиллацгаая <span className="gradient-text">Хамт</span>
           </h2>
           <p className="section-desc">
-            Танай байгууллагад хөгжүүлэгч хэрэгтэй бол надад мэдэгдэнэ үү.
-            Хамтран ажиллахдаа баярлана.
+            Backend, frontend, эсвэл full stack хөгжүүлэлтийн боломж дээр нээлттэй.
+            Ялангуяа бодит бүтээгдэхүүн, багийн орчин, хурдан суралцах чадвар хэрэгтэй багт үнэ цэн өгч чадна.
           </p>
 
           <div className="contact-grid">
@@ -66,7 +66,8 @@ export default function Contact() {
                   <span style={{ fontWeight: 700, color: '#10b981', fontSize: '0.875rem' }}>Ажлын байранд нээлттэй</span>
                 </div>
                 <p style={{ color: 'var(--text-muted)', fontSize: '0.84rem', lineHeight: 1.6 }}>
-                  Full-time болон part-time ажлын байрны санал авч байна. 7-14 хоногийн дотор хариу өгнө.
+                  Junior backend, frontend эсвэл full stack чиглэлийн боломжууд сонирхож байна.
+                  Production орчинд хурдан дасан зохицож, багийн review culture-д нийцэж ажиллана.
                 </p>
               </div>
             </div>

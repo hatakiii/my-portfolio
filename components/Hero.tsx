@@ -19,11 +19,20 @@ export default function Hero() {
       <div className="container">
         <div className="hero-layout fade-in" ref={ref}>
           <div className="hero-content">
+            <div className="hero-badge">
+              <span className="hero-badge-dot" />
+              Backend дадлага + Full stack bootcamp
+            </div>
+
             <h1 className="hero-title">
-              Сайн байна уу! Би бол{" "}
-              <span className="highlight">Хатанбаатар</span>, full stack
-              хөгжүүлэгч.
+              Backend, frontend, full stack
+              <span className="gradient-text"> хөгжүүлэлтэд бэлэн</span>
             </h1>
+
+            <p className="hero-subtitle">
+              Telcocom дадлага, Pinecone Academy багийн төслүүд, PR review болон
+              production workflow туршлагатай junior developer.
+            </p>
 
             <div className="hero-actions">
               <a href="#projects" className="btn-primary">
@@ -36,46 +45,88 @@ export default function Hero() {
 
             <div className="hero-stats">
               <div className="hero-stat">
-                <span className="hero-stat-number">10+</span>
-                <span className="hero-stat-label">Төсөл</span>
+                <span className="hero-stat-number">4+</span>
+                <span className="hero-stat-label">Багийн төсөл</span>
               </div>
               <div className="hero-stat">
-                <span className="hero-stat-number">Full Stack</span>
-                <span className="hero-stat-label">Хөгжүүлэлт</span>
+                <span className="hero-stat-number">31</span>
+                <span className="hero-stat-label">PR хаасан</span>
               </div>
               <div className="hero-stat">
-                <span className="hero-stat-number">Cloudinary</span>
-                <span className="hero-stat-label">Image workflow</span>
+                <span className="hero-stat-number">30</span>
+                <span className="hero-stat-label">PR review</span>
               </div>
             </div>
           </div>
 
           <div className="hero-showcase">
             <div className="hero-showcase-card hero-showcase-main">
-              <div className="showcase-window-bar">
-                <span />
-                <span />
-                <span />
-              </div>
-              <div className="showcase-preview">
-                <div className="showcase-preview-sidebar" />
-                <div className="showcase-preview-content">
-                  <div className="showcase-preview-top" />
-                  <div className="showcase-preview-grid">
-                    <div />
-                    <div />
-                    <div />
-                    <div />
+              <div className="hero-visual">
+                <div className="hero-visual-window">
+                  <div className="hero-visual-topbar">
+                    <span />
+                    <span />
+                    <span />
+                  </div>
+                  <div className="hero-visual-screen">
+                    <div className="hero-visual-sidebar">
+                      <div className="hero-visual-dot hero-visual-dot-active" />
+                      <div className="hero-visual-dot" />
+                      <div className="hero-visual-dot" />
+                    </div>
+                    <div className="hero-visual-main">
+                      <div className="hero-visual-panel hero-visual-panel-primary">
+                        <div className="hero-visual-kicker">Current focus</div>
+                        <strong>Shipping features that pass review</strong>
+                        <div className="hero-visual-bars">
+                          <span />
+                          <span />
+                          <span />
+                        </div>
+                      </div>
+                      <div className="hero-visual-grid">
+                        <div className="hero-visual-card">
+                          <span className="hero-visual-card-label">Backend</span>
+                          <strong>Spring Boot</strong>
+                        </div>
+                        <div className="hero-visual-card">
+                          <span className="hero-visual-card-label">Frontend</span>
+                          <strong>Next.js</strong>
+                        </div>
+                        <div className="hero-visual-card">
+                          <span className="hero-visual-card-label">Workflow</span>
+                          <strong>PR Review</strong>
+                        </div>
+                        <div className="hero-visual-card">
+                          <span className="hero-visual-card-label">Testing</span>
+                          <strong>Cypress / Jest</strong>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="hero-proof-strip">
+                  <div className="hero-proof-chip">
+                    <span>Experience</span>
+                    <strong>Telcocom internship</strong>
+                  </div>
+                  <div className="hero-proof-chip">
+                    <span>Strength</span>
+                    <strong>Fast learner</strong>
+                  </div>
+                  <div className="hero-proof-chip">
+                    <span>Language</span>
+                    <strong>IELTS 6.5</strong>
                   </div>
                 </div>
               </div>
             </div>
 
             <div className="hero-showcase-note">
-              <strong>Admin panel</strong>
+              <strong>Recruiter snapshot</strong>
               <p>
-                Төслийн screenshot-оо upload хийгээд Cloudinary-д хадгалж, нүүр
-                хуудсан дээрээ шууд жагсааж харуулна.
+                React, Next.js, Node.js, Java/Spring Boot stack дээр хурдан
+                дасан зохицож, review орчинд feature-ээ дуусгаж чадна.
               </p>
             </div>
           </div>

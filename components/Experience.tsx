@@ -4,24 +4,24 @@ import { useEffect, useRef } from 'react'
 
 const experiences = [
   {
-    date: '2024 — Одоо',
-    role: 'Full Stack Developer',
-    company: 'Freelance / Remote',
-    desc: 'Next.js, React, MongoDB ашиглан клиентийн төслүүд дээр ажиллаж байна. REST API, admin dashboard, e-commerce шийдлүүд хэрэгжүүлэв.',
+    date: '2026.03 — 2026.04',
+    role: 'Backend Developer Intern',
+    company: 'Телкоком ХХК',
+    desc: 'Spring Boot, MongoDB, Java ашиглан CRUD REST API, JWT authentication бүхий систем хөгжүүлж, invoice list, call report, dashboard зэрэг production хэсгүүдэд сайжруулалт хийж staging орчинд нийлүүлсэн.',
     icon: '💼',
   },
   {
-    date: '2023 — 2024',
-    role: 'Frontend Developer Intern',
-    company: 'Tech Startup, Улаанбаатар',
-    desc: 'React болон TypeScript ашиглан UI компонент хөгжүүлэлт хийхэд оролцов. Figma design-г кодлох, responsive layout бүтээх туршлага эзэмшив.',
-    icon: '🎓',
+    date: '2025.06 — 2026.02',
+    role: 'Full Stack Bootcamp Trainee',
+    company: 'Pinecone Academy',
+    desc: 'Next.js, GraphQL, PostgreSQL, NX monorepo, Cypress, Jest зэрэг орчинд 7 хүнтэй багуудаар ажиллаж, club platform, exam system, leave management system зэрэг төслүүд дээр feature хөгжүүлэлт, PR review, Agile workflow туршлага хуримтлуулсан.',
+    icon: '🚀',
   },
   {
-    date: '2022 — 2023',
-    role: 'Computer Science Student',
-    company: 'МУИС / Их сургууль',
-    desc: 'Програм хангамжийн инженерчлэл, алгоритм, өгөгдлийн бүтэц, өгөгдлийн сан зэрэг хичээлүүдийг судлав.',
+    date: '2018.09 — 2024.06',
+    role: 'Бакалавр, Хүний их эмч',
+    company: 'АШУҮИС',
+    desc: 'Эмчийн сургалтаар системтэй сэтгэлгээ, хариуцлага, хэрэглэгч буюу хүний хэрэгцээг анзаарах дадал суусан нь өнөөдрийн хөгжүүлэлтийн ажилд маань хүчтэй нөлөөлдөг.',
     icon: '🎓',
   },
 ]
@@ -47,7 +47,7 @@ export default function Experience() {
             Ажлын <span className="gradient-text">Туршлага</span>
           </h2>
           <p className="section-desc">
-            Өөрийн хөгжүүлэлтийн замнал, ажилласан байр болон эзэмшсэн туршлага.
+            Career transition, bootcamp, дадлага, бодит багийн орчинд хуримтлуулсан туршлага.
           </p>
 
           <div className="timeline">

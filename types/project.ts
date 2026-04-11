@@ -10,6 +10,7 @@ export interface Project {
   featured: boolean
   imageUrl?: string
   imagePublicId?: string
+  otherImages: string[]
   order: number
   duration: string
   teamSize: number

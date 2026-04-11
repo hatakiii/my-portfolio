@@ -11,6 +11,7 @@ export interface IProject extends Document {
   featured: boolean
   imageUrl?: string
   imagePublicId?: string
+  otherImages: string[]
   order: number
   duration: string
   teamSize: number
@@ -35,6 +36,7 @@ const ProjectSchema: Schema = new Schema(
     featured: { type: Boolean, default: false },
     imageUrl: { type: String, default: '' },
     imagePublicId: { type: String, default: '' },
+    otherImages: [{ type: String }],
     order: { type: Number, default: 0 },
     duration: { type: String, default: '' },
     teamSize: { type: Number, default: 1 },

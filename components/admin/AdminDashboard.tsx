@@ -17,6 +17,7 @@ const EMPTY_FORM = {
   featured: false,
   imageUrl: '',
   imagePublicId: '',
+  otherImages: '',
   order: 0,
   duration: '',
   teamSize: 1,
@@ -44,6 +45,7 @@ export default function AdminDashboard() {
   const [editId, setEditId] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
   const [uploadingImage, setUploadingImage] = useState(false)
+  const [uploadingGalleryImage, setUploadingGalleryImage] = useState(false)
   const [toast, setToast] = useState<Toast | null>(null)
   const [showForm, setShowForm] = useState(false)
 
@@ -120,6 +122,7 @@ export default function AdminDashboard() {
         ...form,
         techStack: form.techStack.split(',').map((item) => item.trim()).filter(Boolean),
         outcomes: form.outcomes.split('\n').map((item) => item.trim()).filter(Boolean),
+        otherImages: form.otherImages.split('\n').map((item) => item.trim()).filter(Boolean),
         order: Number(form.order),
         teamSize: Number(form.teamSize),
         developerCount: Number(form.developerCount),
@@ -162,6 +165,7 @@ export default function AdminDashboard() {
       featured: project.featured,
       imageUrl: project.imageUrl || '',
       imagePublicId: project.imagePublicId || '',
+      otherImages: (project.otherImages || []).join('\n'),
       order: project.order ?? 0,
       duration: project.duration || '',
       teamSize: project.teamSize ?? 1,
@@ -201,6 +205,43 @@ export default function AdminDashboard() {
     await fetch('/api/auth/logout', { method: 'POST' })
     router.push('/login')
     router.refresh()
+  }
+
+  const handleGalleryImageUpload = async (file: File) => {
+    setUploadingGalleryImage(true)
+
+    try {
+      const payload = new FormData()
+      payload.append('file', file)
+
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: payload,
+      })
+
+      const json = await response.json()
+
+      if (!json.success) {
+        throw new Error(json.error || 'Upload failed')
+      }
+
+      setForm((current) => {
+        const nextImages = current.otherImages
+          ? `${current.otherImages}\n${json.data.imageUrl}`
+          : json.data.imageUrl
+
+        return {
+          ...current,
+          otherImages: nextImages,
+        }
+      })
+
+      showToast('Нэмэлт зураг gallery руу хадгалагдлаа')
+    } catch {
+      showToast('Нэмэлт зураг оруулахад алдаа гарлаа', 'error')
+    } finally {
+      setUploadingGalleryImage(false)
+    }
   }
 
   return (
@@ -347,6 +388,42 @@ export default function AdminDashboard() {
               </div>
 
               <div className="form-group full-width">
+                <label className="form-label" htmlFor="f-other-images">Бусад зурагнууд</label>
+                <textarea
+                  id="f-other-images"
+                  className="form-textarea"
+                  placeholder="Мөр бүр дээр нэг image URL оруулна"
+                  value={form.otherImages}
+                  onChange={(event) => setForm({ ...form, otherImages: event.target.value })}
+                />
+                <input
+                  className="form-input"
+                  type="file"
+                  accept="image/*"
+                  onChange={(event) => {
+                    const file = event.target.files?.[0]
+                    if (file) {
+                      handleGalleryImageUpload(file)
+                    }
+                  }}
+                />
+                {uploadingGalleryImage && <p className="admin-helper-text">Gallery зураг upload хийж байна...</p>}
+                {form.otherImages && (
+                  <div className="admin-gallery-preview">
+                    {form.otherImages
+                      .split('\n')
+                      .map((item) => item.trim())
+                      .filter(Boolean)
+                      .map((url) => (
+                        <div key={url} className="admin-gallery-thumb">
+                          <Image src={url} alt="Gallery preview" width={320} height={220} className="admin-preview-image" />
+                        </div>
+                      ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="form-group full-width">
                 <label className="form-label" htmlFor="f-featured">
                   <input
                     id="f-featured"
@@ -360,7 +437,7 @@ export default function AdminDashboard() {
               </div>
 
               <div className="form-group full-width" style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                <button className="btn-primary" type="submit" disabled={saving || uploadingImage}>
+                <button className="btn-primary" type="submit" disabled={saving || uploadingImage || uploadingGalleryImage}>
                   {saving ? 'Хадгалж байна...' : editId ? 'Шинэчлэх' : 'Хадгалах'}
                 </button>
                 <button className="btn-outline" type="button" onClick={resetForm}>

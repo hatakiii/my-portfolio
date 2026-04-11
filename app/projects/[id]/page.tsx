@@ -21,6 +21,8 @@ export default async function ProjectDetailPage({
     notFound()
   }
 
+  const galleryImages = (project.otherImages || []).filter(Boolean)
+
   return (
     <main className="project-detail-page">
       <div className="container project-detail-shell">
@@ -121,6 +123,33 @@ export default async function ProjectDetailPage({
               </ul>
             ) : (
               <p>Үр дүнгийн мэдээлэл оруулаагүй.</p>
+            )}
+          </article>
+
+          <article className="project-detail-card project-detail-card-wide">
+            <h2>Бусад зурагнууд</h2>
+            {galleryImages.length ? (
+              <div className="project-gallery-grid">
+                {galleryImages.map((imageUrl: string, index: number) => (
+                  <a
+                    key={`${imageUrl}-${index}`}
+                    href={imageUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="project-gallery-item"
+                  >
+                    <Image
+                      src={imageUrl}
+                      alt={`${project.title} additional screenshot ${index + 1}`}
+                      width={900}
+                      height={620}
+                      className="project-gallery-image"
+                    />
+                  </a>
+                ))}
+              </div>
+            ) : (
+              <p>Нэмэлт screenshot оруулаагүй байна.</p>
             )}
           </article>
 
