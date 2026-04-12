@@ -154,7 +154,7 @@ export default function GitHubStats() {
             <h2 className="section-title">GitHub Үзүүлэлтүүд</h2>
           </div>
           <a
-            href="https://github.com/khatanbaatar"
+            href="https://github.com/hatakiii"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-outline"
