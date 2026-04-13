@@ -14,7 +14,7 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    const sections = ["home", "github", "about", "projects", "experience", "contact"];
+    const sections = ["home", "github", "about", "projects", "experience", "certificates", "contact"];
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
@@ -36,6 +36,7 @@ export default function Navbar() {
     { href: "#about", label: "Миний тухай", id: "about" },
     { href: "#projects", label: "Төслүүд", id: "projects" },
     { href: "#experience", label: "Туршлага", id: "experience" },
+    { href: "#certificates", label: "Сертификат", id: "certificates" },
     { href: "#contact", label: "Холбоо барих", id: "contact" },
   ];
 
