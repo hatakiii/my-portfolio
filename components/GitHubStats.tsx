@@ -39,6 +39,7 @@ interface GitHubData {
   closedPRs: { totalCount: number };
   mergedPRs: { totalCount: number };
   repositoriesContributedTo: { totalCount: number };
+  repositories: { totalCount: number };
 }
 
 const MONTH_NAMES = [
@@ -147,43 +148,53 @@ export default function GitHubStats() {
   return (
     <section className="section" id="github">
       <div className="container">
-        {/* Header */}
-        <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        {/* Header - Minimalist */}
+        <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <div>
             <span className="section-tag">Үйл ажиллагаа</span>
-            <h2 className="section-title">GitHub Үзүүлэлтүүд</h2>
+            <h2 className="text-3xl font-bold tracking-tight text-slate-900">GitHub Үзүүлэлтүүд</h2>
+            <p className="text-slate-500 mt-2">Миний нээлттэй эхийн болон бусад төслүүд дэх хувь нэмэр</p>
           </div>
           <a
             href="https://github.com/hatakiii"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-outline"
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors"
           >
-            <GitHubIcon size={18} />
+            <GitHubIcon size={16} />
             Профайл үзэх
             <ExternalLink size={14} />
           </a>
         </header>
 
-        {/* Contribution Calendar Card */}
+        {/* Ultra-Minimalist Stats */}
+        <div className="flex flex-col md:flex-row gap-10 md:gap-20 mb-16 px-2">
+          {[
+            { label: "Нийт хувь нэмэр", value: totalContributions.toLocaleString() },
+            { label: "Pull Requests", value: data.pullRequests.totalCount },
+            { label: "Нийт Репозитори", value: data.repositories.totalCount },
+          ].map((stat, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.1 }}
+              viewport={{ once: true }}
+              className="flex flex-col"
+            >
+              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-2">{stat.label}</span>
+              <span className="text-4xl lg:text-5xl font-light text-slate-800 tracking-tight">{stat.value}</span>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Contribution Calendar Card - Minimalist */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-white border border-slate-100 rounded-3xl shadow-[0_8px_32px_-8px_rgba(15,23,42,0.08)] p-8 lg:p-10 relative"
+          className="bg-white border border-slate-100 rounded-3xl p-6 lg:p-8 relative"
         >
-          {/* Top row: total + link */}
-          <div className="flex items-center justify-between mb-6">
-            <p className="text-lg font-bold text-slate-700">
-              <span className="text-slate-900">
-                {totalContributions.toLocaleString()} contributions
-              </span>
-              <span className="text-slate-400 font-medium ml-2">
-                in the last year
-              </span>
-            </p>
-          </div>
-
           {/* Calendar wrapper - horizontally scrollable on small screens */}
           <div
             className="overflow-x-auto pb-2"
@@ -195,7 +206,7 @@ export default function GitHubStats() {
             >
               {/* Month labels row */}
               <div
-                style={{ display: "flex", paddingLeft: 32, marginBottom: 6 }}
+                style={{ display: "flex", paddingLeft: 32, marginBottom: 8 }}
               >
                 {weeks.map((_, wIdx) => {
                   const label = monthLabels.find((m) => m.colIndex === wIdx);
@@ -206,7 +217,7 @@ export default function GitHubStats() {
                         width: STEP,
                         flexShrink: 0,
                         fontSize: 11,
-                        fontWeight: 600,
+                        fontWeight: 500,
                         color: "#94a3b8",
                       }}
                     >
@@ -241,7 +252,7 @@ export default function GitHubStats() {
                         lineHeight: `${CELL}px`,
                         width: 24,
                         fontSize: 11,
-                        fontWeight: 600,
+                        fontWeight: 500,
                         color: "#94a3b8",
                         textAlign: "right",
                       }}
@@ -256,7 +267,7 @@ export default function GitHubStats() {
                   style={{ display: "flex", flexDirection: "row", gap: GAP }}
                 >
                   {weeks.map((week, wIdx) => (
-                    <div
+                     <div
                       key={wIdx}
                       style={{
                         display: "flex",
@@ -275,9 +286,8 @@ export default function GitHubStats() {
                           />
                         ))}
                       {week.contributionDays.map((day, dIdx) => (
-                        <motion.div
+                        <div
                           key={dIdx}
-                          whileHover={{ scale: 1.35 }}
                           style={{
                             width: CELL,
                             height: CELL,
@@ -285,21 +295,24 @@ export default function GitHubStats() {
                               day.contributionCount === 0
                                 ? "#ebedf0"
                                 : day.color,
-                            borderRadius: 3,
-                            cursor: "default",
+                            borderRadius: 2,
+                            cursor: "pointer",
                             flexShrink: 0,
+                            transition: "transform 0.1s ease",
                           }}
                           onMouseEnter={(e) => {
-                            const rect = (
-                              e.target as HTMLElement
-                            ).getBoundingClientRect();
-                            setTooltip({
-                              text: `${day.contributionCount} contribution${day.contributionCount !== 1 ? "s" : ""} on ${new Date(day.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`,
-                              x: rect.left + rect.width / 2,
-                              y: rect.top - 8,
-                            });
+                             (e.target as HTMLElement).style.transform = "scale(1.2)";
+                             const rect = (e.target as HTMLElement).getBoundingClientRect();
+                             setTooltip({
+                               text: `${day.contributionCount} contribution${day.contributionCount !== 1 ? "s" : ""} on ${new Date(day.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`,
+                               x: rect.left + rect.width / 2,
+                               y: rect.top - 8,
+                             });
                           }}
-                          onMouseLeave={() => setTooltip(null)}
+                          onMouseLeave={(e) => {
+                             (e.target as HTMLElement).style.transform = "scale(1)";
+                             setTooltip(null);
+                          }}
                         />
                       ))}
                     </div>
@@ -310,9 +323,9 @@ export default function GitHubStats() {
           </div>
 
           {/* Legend */}
-          <div className="flex items-center justify-end gap-2 mt-5 text-xs text-slate-400 font-semibold">
-            <span>Less</span>
-            <div className="flex items-center gap-1">
+          <div className="flex items-center justify-end gap-2 mt-6 text-xs text-slate-400 font-medium">
+            <span>Бага</span>
+            <div className="flex items-center gap-1.5">
               {["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"].map(
                 (color, i) => (
                   <div
@@ -321,20 +334,20 @@ export default function GitHubStats() {
                       width: 12,
                       height: 12,
                       backgroundColor: color,
-                      borderRadius: 3,
+                      borderRadius: 2,
                     }}
                   />
                 ),
               )}
             </div>
-            <span>More</span>
+            <span>Их</span>
           </div>
         </motion.div>
 
         {/* Tooltip (fixed position) */}
         {tooltip && (
           <div
-            className="fixed z-50 pointer-events-none px-3 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-medium shadow-xl whitespace-nowrap"
+            className="fixed z-50 pointer-events-none px-3 py-2 rounded-md bg-slate-800 text-white text-xs font-medium shadow-sm whitespace-nowrap"
             style={{
               left: tooltip.x,
               top: tooltip.y,
@@ -342,7 +355,7 @@ export default function GitHubStats() {
             }}
           >
             {tooltip.text}
-            <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-x-4 border-x-transparent border-t-4 border-t-slate-900" />
+            <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-x-[5px] border-x-transparent border-t-[5px] border-t-slate-800" />
           </div>
         )}
       </div>

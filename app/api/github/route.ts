@@ -46,6 +46,9 @@ export async function GET() {
         repositoriesContributedTo(first: 10, contributionTypes: [COMMIT, ISSUE, PULL_REQUEST, REPOSITORY]) {
           totalCount
         }
+        repositories(first: 100, ownerAffiliations: OWNER, isFork: false) {
+          totalCount
+        }
       }
     }
   `;
@@ -73,6 +76,7 @@ export async function GET() {
         { status: 500 },
       );
     }
+    // console.log("data", result.data.user);
 
     return NextResponse.json({
       success: true,
