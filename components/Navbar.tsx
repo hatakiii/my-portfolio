@@ -6,6 +6,7 @@ import Link from "next/link";
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("home");
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
@@ -30,6 +31,16 @@ export default function Navbar() {
     return () => observer.disconnect();
   }, []);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
+
   const links = [
     { href: "#home", label: "Нүүр", id: "home" },
     { href: "#github", label: "GitHub", id: "github" },
@@ -44,20 +55,35 @@ export default function Navbar() {
     <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
       <div className="container navbar-inner">
         <a href="#home" className="navbar-logo">
-          My Portal
+          K.
         </a>
-        <ul className="navbar-links">
+        <ul className={`navbar-links ${mobileOpen ? "mobile-open" : ""}`}>
           {links.map((l) => (
             <li key={l.id}>
-              <a href={l.href} className={active === l.id ? "active" : ""}>
+              <a
+                href={l.href}
+                className={active === l.id ? "active" : ""}
+                onClick={() => setMobileOpen(false)}
+              >
                 {l.label}
               </a>
             </li>
           ))}
         </ul>
-        <Link href="/admin" className="btn-outline btn-sm">
-          Нэвтрэх
-        </Link>
+        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          <Link href="/admin" className="btn-outline btn-sm">
+            Нэвтрэх
+          </Link>
+          <button
+            className={`navbar-toggle ${mobileOpen ? "open" : ""}`}
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Toggle menu"
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+        </div>
       </div>
     </nav>
   );

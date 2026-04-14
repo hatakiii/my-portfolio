@@ -18,7 +18,6 @@ export default function Hero() {
   const [githubData, setGithubData] = useState<GitHubData | null>(null);
 
   useEffect(() => {
-    // Fetch GitHub data
     fetch("/api/github")
       .then((res) => res.json())
       .then((json) => {
@@ -33,16 +32,17 @@ export default function Hero() {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.15, delayChildren: 0.1 },
+      transition: { staggerChildren: 0.12, delayChildren: 0.1 },
     },
   };
 
   const itemVariants: any = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      transition: { type: "spring", stiffness: 80, damping: 20 } 
+    hidden: { opacity: 0, y: 30, filter: "blur(10px)" },
+    visible: {
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      transition: { type: "spring", stiffness: 80, damping: 20 },
     },
   };
 
@@ -53,7 +53,7 @@ export default function Hero() {
 
       <div className="container">
         <div className="hero-layout">
-          <motion.div 
+          <motion.div
             className="hero-content"
             variants={containerVariants}
             initial="hidden"
@@ -66,7 +66,8 @@ export default function Hero() {
 
             <motion.h1 variants={itemVariants} className="hero-title">
               Backend, frontend, full stack
-              <span className="gradient-text"> хөгжүүлэлтэд бэлэн</span>
+              <br />
+              <span className="gradient-text">хөгжүүлэлтэд бэлэн</span>
             </motion.h1>
 
             <motion.p variants={itemVariants} className="hero-subtitle">
@@ -76,9 +77,15 @@ export default function Hero() {
 
             <motion.div variants={itemVariants} className="hero-actions">
               <a href="#projects" className="btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" />
+                </svg>
                 Төслүүдийг үзэх
               </a>
               <a href="#contact" className="btn-outline">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" />
+                </svg>
                 Холбоо барих
               </a>
             </motion.div>
@@ -105,11 +112,11 @@ export default function Hero() {
             </motion.div>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             className="hero-showcase"
-            initial={{ opacity: 0, scale: 0.95, x: 20 }}
+            initial={{ opacity: 0, scale: 0.95, x: 30 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.3, type: "spring", stiffness: 70 }}
+            transition={{ duration: 1, delay: 0.4, type: "spring", stiffness: 60 }}
           >
             <div className="hero-showcase-card hero-showcase-main">
               <div className="hero-visual">
@@ -173,12 +180,12 @@ export default function Hero() {
               </div>
             </div>
 
-            <motion.div 
+            <motion.div
               className="hero-showcase-note"
               whileHover={{ scale: 1.02 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
-              <strong>Ажилд авагчдад</strong>
+              <strong>💼 Ажилд авагчдад</strong>
               <p>
                 React, Next.js, Node.js, Java/Spring Boot stack дээр хурдан
                 дасан зохицож, review орчинд feature-ээ дуусгаж чадна.

@@ -1,78 +1,113 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
+import { motion } from 'framer-motion'
+import { Mail, Phone, MapPin, Send, Loader2, CheckCircle2 } from 'lucide-react'
+import { Github } from './BrandIcons'
 
 export default function Contact() {
-  const ref = useRef<HTMLDivElement>(null)
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' })
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) entry.target.classList.add('visible') },
-      { threshold: 0.15 }
-    )
-    if (ref.current) observer.observe(ref.current)
-    return () => observer.disconnect()
-  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setStatus('sending')
     // Simulate sending (replace with real email API if needed)
-    await new Promise((r) => setTimeout(r, 1200))
+    await new Promise((r) => setTimeout(r, 1500))
     setStatus('sent')
     setForm({ name: '', email: '', subject: '', message: '' })
     setTimeout(() => setStatus('idle'), 3000)
   }
 
   const contacts = [
-    { icon: '✉️', label: 'Email', value: 'hbbaatar@gmail.com', href: 'mailto:hbbaatar@gmail.com' },
-    { icon: '📞', label: 'Утас', value: '+976 9522 1292', href: 'tel:+97695221292' },
-    { icon: '📍', label: 'Байршил', value: 'Улаанбаатар, Монгол', href: '#' },
-    { icon: '🐙', label: 'GitHub', value: 'github.com/hatakiii', href: 'https://github.com/hatakiii' },
+    { icon: <Mail className="w-5 h-5" />, label: 'Email', value: 'hbbaatar@gmail.com', href: 'mailto:hbbaatar@gmail.com' },
+    { icon: <Phone className="w-5 h-5" />, label: 'Утас', value: '+976 9522 1292', href: 'tel:+97695221292' },
+    { icon: <MapPin className="w-5 h-5" />, label: 'Байршил', value: 'Улаанбаатар, Монгол', href: '#' },
+    { icon: <Github className="w-5 h-5" />, label: 'GitHub', value: 'github.com/hatakiii', href: 'https://github.com/hatakiii' },
   ]
 
   return (
-    <section id="contact" className="section">
-      <div className="container">
-        <div className="fade-in" ref={ref}>
+    <section id="contact" className="section relative overflow-hidden">
+      {/* Background Orbs */}
+      <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-accent-primary/10 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/4 -left-24 w-64 h-64 bg-accent-secondary/5 blur-[100px] rounded-full pointer-events-none" />
+
+      <div className="container relative z-10">
+        <motion.div
+           initial={{ opacity: 0, y: 20 }}
+           whileInView={{ opacity: 1, y: 0 }}
+           viewport={{ once: true }}
+           className="section-header text-center"
+        >
           <span className="section-tag">✦ Холбоо барих</span>
           <h2 className="section-title">
             Ажиллацгаая <span className="gradient-text">Хамт</span>
           </h2>
-          <p className="section-desc">
-            Backend, frontend, эсвэл full stack хөгжүүлэлтийн боломж дээр нээлттэй.
-            Ялангуяа бодит бүтээгдэхүүн, багийн орчин, хурдан суралцах чадвар хэрэгтэй багт үнэ цэн өгч чадна.
+          <p className="section-desc mx-auto">
+            Шинэ төсөл, ажлын санал эсвэл зүгээр л танилцахыг хүсвэл мессеж үлдээгээрэй. 
+            Би 24 цагийн дотор хариу өгөх болно.
           </p>
+        </motion.div>
 
-          <div className="contact-grid">
-            {/* Contact Info */}
-            <div className="contact-info">
-              {contacts.map((c) => (
-                <a key={c.label} href={c.href} className="contact-item" target={c.href.startsWith('http') ? '_blank' : '_self'} rel="noopener noreferrer">
-                  <div className="contact-icon">{c.icon}</div>
+        <div className="contact-grid">
+          {/* Contact Info */}
+          <motion.div 
+            className="contact-info"
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+          >
+            <div className="space-y-4">
+              {contacts.map((c, idx) => (
+                <motion.a 
+                  key={c.label} 
+                  href={c.href} 
+                  className="contact-item group"
+                  target={c.href.startsWith('http') ? '_blank' : '_self'} 
+                  rel="noopener noreferrer"
+                  whileHover={{ x: 8 }}
+                >
+                  <div className="contact-icon text-accent-primary group-hover:text-white group-hover:bg-accent-primary transition-all duration-300">
+                    {c.icon}
+                  </div>
                   <div>
                     <div className="contact-label">{c.label}</div>
-                    <div className="contact-value">{c.value}</div>
+                    <div className="contact-value group-hover:text-accent-primary transition-colors">
+                      {c.value}
+                    </div>
                   </div>
-                </a>
+                </motion.a>
               ))}
-
-              {/* Quick availability */}
-              <div style={{ padding: '20px', background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.3)', borderRadius: 'var(--radius-md)', marginTop: '8px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-                  <span style={{ width: '10px', height: '10px', background: '#10b981', borderRadius: '50%', animation: 'pulse-dot 2s infinite', display: 'inline-block' }} />
-                  <span style={{ fontWeight: 700, color: '#10b981', fontSize: '0.875rem' }}>Ажлын байранд нээлттэй</span>
-                </div>
-                <p style={{ color: 'var(--text-muted)', fontSize: '0.84rem', lineHeight: 1.6 }}>
-                  Junior backend, frontend эсвэл full stack чиглэлийн боломжууд сонирхож байна.
-                  Production орчинд хурдан дасан зохицож, багийн review culture-д нийцэж ажиллана.
-                </p>
-              </div>
             </div>
 
-            {/* Form */}
+            {/* Quick availability card */}
+            <motion.div 
+              className="glass-card p-8 mt-8 border-accent-primary/20 bg-accent-primary/5"
+              whileHover={{ scale: 1.02 }}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <span className="relative flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-emerald opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-accent-emerald"></span>
+                </span>
+                <span className="font-bold text-accent-emerald text-sm uppercase tracking-wider">
+                  Ажлын байранд нээлттэй
+                </span>
+              </div>
+              <p className="text-text-secondary text-sm leading-relaxed mb-0">
+                Би одоогоор Junior Full Stack / Backend чиглэлээр шинэ ажлын саналд нээлттэй байна. 
+                Багийн соёлтой, хурдтай хөгжиж буй хамт олонтой нэгдэхэд бэлэн.
+              </p>
+            </motion.div>
+          </motion.div>
+
+          {/* Form Area */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="glass-card p-8 md:p-10"
+          >
             <form className="contact-form" onSubmit={handleSubmit}>
               <div className="form-group">
                 <label className="form-label" htmlFor="contact-name">Нэр</label>
@@ -92,19 +127,19 @@ export default function Contact() {
                   id="contact-email"
                   className="form-input"
                   type="email"
-                  placeholder="email@company.com"
+                  placeholder="email@example.com"
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                   required
                 />
               </div>
               <div className="form-group">
-                <label className="form-label" htmlFor="contact-subject">Гарчиг</label>
+                <label className="form-label" htmlFor="contact-subject">Сэдэв</label>
                 <input
                   id="contact-subject"
                   className="form-input"
                   type="text"
-                  placeholder="Албан тушаалын санал / Асуулга"
+                  placeholder="Хамтран ажиллах хүсэлт"
                   value={form.subject}
                   onChange={(e) => setForm({ ...form, subject: e.target.value })}
                   required
@@ -115,23 +150,39 @@ export default function Contact() {
                 <textarea
                   id="contact-message"
                   className="form-textarea"
-                  placeholder="Таны мессеж..."
+                  placeholder="Сайн байна уу? Бид тантай..."
                   value={form.message}
                   onChange={(e) => setForm({ ...form, message: e.target.value })}
                   required
                 />
               </div>
-              <button
-                id="contact-submit"
+              
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 type="submit"
-                className="btn-primary"
+                className="btn-primary w-full justify-center py-4 mt-2"
                 disabled={status === 'sending'}
-                style={{ width: '100%', justifyContent: 'center', opacity: status === 'sending' ? 0.7 : 1 }}
               >
-                {status === 'sending' ? '⏳ Илгээж байна...' : status === 'sent' ? '✅ Илгээгдлээ!' : '📨 Мессеж илгээх'}
-              </button>
+                {status === 'sending' ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Илгээж байна...
+                  </>
+                ) : status === 'sent' ? (
+                  <>
+                    <CheckCircle2 className="w-5 h-5" />
+                    Амжилттай илгээгдлээ!
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-5 h-5" />
+                    Мессеж илгээх
+                  </>
+                )}
+              </motion.button>
             </form>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

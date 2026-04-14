@@ -1,8 +1,11 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import { ExternalLink, ArrowUpRight } from "lucide-react";
+import { Github } from "./BrandIcons";
 import type { Project } from "@/types/project";
 
 interface ProjectsProps {
@@ -22,18 +25,6 @@ const CATEGORIES = [
 
 export default function Projects({ projects, loading }: ProjectsProps) {
   const [filter, setFilter] = useState("Бүгд");
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) entry.target.classList.add("visible");
-      },
-      { threshold: 0.1 },
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
 
   const filtered =
     filter === "Бүгд"
@@ -41,58 +32,64 @@ export default function Projects({ projects, loading }: ProjectsProps) {
       : projects.filter((p) => p.category === filter);
 
   return (
-    <section id="projects" className="section section-soft">
-      <div className="container">
-        <div className="fade-in" ref={ref}>
+    <section id="projects" className="section section-soft relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent-secondary/5 blur-[120px] rounded-full pointer-events-none" />
+
+      <div className="container relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center md:text-left"
+        >
           <span className="section-tag">Portfolio</span>
           <h2 className="section-title">Хийсэн ажлуудын portfolio</h2>
-          <p className="section-desc">
-            Төсөл бүр screenshot, товч танилцуулга, технологийн стек болон шууд
-            үзэх холбоостой. Картаас дэлгэрэнгүй танилцах эсвэл live/demo руу
-            орох боломжтой.
+          <p className="section-desc mx-auto md:mx-0">
+            Төсөл бүр технологийн стек болон шууд үзэх холбоостой. 
+            Продакшн түвшний код бичих туршлагаа эдгээр төслүүдээр харуулж байна.
           </p>
 
-          <div className="projects-filters">
+          <div className="projects-filters justify-center md:justify-start">
             {CATEGORIES.map((cat) => (
               <button
                 key={cat}
                 className={`filter-btn ${filter === cat ? "active" : ""}`}
                 onClick={() => setFilter(cat)}
-                id={`filter-${cat}`}
               >
                 {cat}
               </button>
             ))}
           </div>
+        </motion.div>
 
-          {loading ? (
-            <div className="projects-grid">
-              {Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="skeleton" style={{ height: "320px" }} />
-              ))}
-            </div>
-          ) : filtered.length === 0 ? (
-            <div
-              style={{
-                textAlign: "center",
-                padding: "80px 0",
-                color: "var(--text-muted)",
-              }}
-            >
-              <div style={{ fontSize: "3rem", marginBottom: "16px" }}>🔍</div>
-              <p>Энэ ангилалд төсөл олдсонгүй.</p>
-              <p style={{ fontSize: "0.85rem", marginTop: "8px" }}>
-                Өөр ангилал сонгох эсвэл admin хэсгээс шинэ төсөл нэмнэ үү.
-              </p>
-            </div>
-          ) : (
-            <div className="projects-grid">
+        {loading ? (
+          <div className="projects-grid">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="skeleton h-[400px]" />
+            ))}
+          </div>
+        ) : filtered.length === 0 ? (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center py-24 glass-card"
+          >
+            <div className="text-5xl mb-4">🔍</div>
+            <p className="text-text-secondary">Энэ ангилалд төсөл олдсонгүй.</p>
+          </motion.div>
+        ) : (
+          <motion.div 
+            layout
+            className="projects-grid"
+          >
+            <AnimatePresence mode="popLayout">
               {filtered.map((project) => (
                 <ProjectCard key={project._id} project={project} />
               ))}
-            </div>
-          )}
-        </div>
+            </AnimatePresence>
+          </motion.div>
+        )}
       </div>
     </section>
   );
@@ -100,10 +97,17 @@ export default function Projects({ projects, loading }: ProjectsProps) {
 
 function ProjectCard({ project }: { project: Project }) {
   return (
-    <article className="project-card" id={`project-${project._id}`}>
+    <motion.article 
+      layout
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      transition={{ duration: 0.4 }}
+      className="project-card group"
+    >
       <Link href={`/projects/${project._id}`} className="project-card-media">
         {project.featured && (
-          <span className="project-featured-badge">Featured</span>
+          <span className="project-featured-badge">Онцлох</span>
         )}
         {project.imageUrl ? (
           <Image
@@ -116,28 +120,29 @@ function ProjectCard({ project }: { project: Project }) {
         ) : (
           <div className="project-image-placeholder">
             <span>{project.category}</span>
-            <p>Screenshot нэмэгдээгүй</p>
+            <p className="text-xs">Screenshot хүлээгдэж байна</p>
           </div>
         )}
+        <div className="absolute inset-0 bg-accent-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+             <div className="bg-bg-primary p-3 rounded-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                <ArrowUpRight className="w-6 h-6 text-accent-primary" />
+             </div>
+        </div>
       </Link>
 
       <div className="project-card-body">
         <div className="project-card-header">
           <div className="project-card-labels">
             <span className="project-category">{project.category}</span>
-            {project.featured && (
-              <span className="project-status-pill">Онцлох</span>
-            )}
           </div>
-          <Link
-            href={`/projects/${project._id}`}
-            className="project-title-link"
-          >
-            <h3 className="project-title">{project.title}</h3>
+          <Link href={`/projects/${project._id}`} className="project-title-link">
+            <h3 className="project-title group-hover:text-accent-primary transition-colors">
+              {project.title}
+            </h3>
           </Link>
         </div>
 
-        <p className="project-desc">{project.description}</p>
+        <p className="project-desc line-clamp-2">{project.description}</p>
 
         {project.techStack?.length > 0 && (
           <div className="project-tech">
@@ -152,39 +157,34 @@ function ProjectCard({ project }: { project: Project }) {
         <div className="project-card-actions">
           <Link
             href={`/projects/${project._id}`}
-            className="project-card-cta project-card-cta-primary"
+            className="project-card-cta project-card-cta-primary flex-1 text-center"
           >
             Танилцах
           </Link>
-          <a
-            href={project.liveUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="project-card-cta"
-          >
-            Live үзэх
-          </a>
-          {project.githubUrl && (
+          <div className="flex gap-2">
             <a
-              href={project.githubUrl}
+              href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="project-link"
-              title="GitHub"
-              aria-label={`${project.title} GitHub`}
+              title="Live Demo"
             >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-              </svg>
+              <ExternalLink className="w-4 h-4" />
             </a>
-          )}
+            {project.githubUrl && (
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="project-link"
+                title="GitHub"
+              >
+                <Github className="w-4 h-4" />
+              </a>
+            )}
+          </div>
         </div>
       </div>
-    </article>
+    </motion.article>
   );
 }
