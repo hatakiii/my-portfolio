@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-  const GITHUB_USERNAME = process.env.GITHUB_USERNAME || "khatanbaatar";
+  const GITHUB_USERNAME = process.env.GITHUB_USERNAME;
 
   if (!GITHUB_TOKEN) {
     return NextResponse.json(
