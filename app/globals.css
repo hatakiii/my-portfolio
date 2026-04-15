@@ -214,6 +214,47 @@ body {
   transform: rotate(-45deg) translate(5px, -5px);
 }
 
+/* ── Language Switcher ────────────────────────────────── */
+.lang-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 5px 12px;
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  transition: border-color 0.3s, background 0.3s;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.lang-switcher:hover {
+  border-color: var(--accent-primary);
+  background: rgba(139, 92, 246, 0.06);
+}
+
+.lang-option {
+  color: var(--text-muted);
+  transition: color 0.25s;
+  padding: 0 4px;
+}
+
+.lang-option.lang-active {
+  color: var(--accent-primary);
+}
+
+.lang-divider {
+  color: var(--border-hover);
+  font-weight: 400;
+  font-size: 0.75rem;
+  padding: 0 2px;
+  pointer-events: none;
+}
+
 /* ══════════════════════════════════════════════════════
    BUTTONS
    ══════════════════════════════════════════════════════ */

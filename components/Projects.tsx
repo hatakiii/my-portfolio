@@ -1,35 +1,32 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink, ArrowUpRight } from "lucide-react";
 import { Github } from "./BrandIcons";
 import type { Project } from "@/types/project";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface ProjectsProps {
   projects: Project[];
   loading: boolean;
 }
 
-const CATEGORIES = [
-  "Бүгд",
-  "Web App",
-  "E-commerce",
-  "Dashboard",
-  "Mobile",
-  "API",
-  "Other",
-];
+const CATEGORIES_EN = ["All", "Web App", "E-commerce", "Dashboard", "Mobile", "API", "Other"];
+const CATEGORIES_MN = ["Бүгд", "Web App", "E-commerce", "Dashboard", "Mobile", "API", "Other"];
 
 export default function Projects({ projects, loading }: ProjectsProps) {
-  const [filter, setFilter] = useState("Бүгд");
+  const { lang, t } = useLanguage();
+  const CATEGORIES = lang === "mn" ? CATEGORIES_MN : CATEGORIES_EN;
+  const [filterIdx, setFilterIdx] = useState(0);
 
+  const filterValue = CATEGORIES_MN[filterIdx]; // always filter by MN key stored in DB
   const filtered =
-    filter === "Бүгд"
+    filterIdx === 0
       ? projects
-      : projects.filter((p) => p.category === filter);
+      : projects.filter((p) => p.category === CATEGORIES_MN[filterIdx]);
 
   return (
     <section id="projects" className="section section-soft relative overflow-hidden">
@@ -43,19 +40,16 @@ export default function Projects({ projects, loading }: ProjectsProps) {
           viewport={{ once: true }}
           className="text-center md:text-left"
         >
-          <span className="section-tag">Portfolio</span>
-          <h2 className="section-title">Хийсэн ажлуудын portfolio</h2>
-          <p className="section-desc mx-auto md:mx-0">
-            Төсөл бүр технологийн стек болон шууд үзэх холбоостой. 
-            Продакшн түвшний код бичих туршлагаа эдгээр төслүүдээр харуулж байна.
-          </p>
+          <span className="section-tag">{t.projects.tag}</span>
+          <h2 className="section-title">{t.projects.title}</h2>
+          <p className="section-desc mx-auto md:mx-0">{t.projects.desc}</p>
 
           <div className="projects-filters justify-center md:justify-start">
-            {CATEGORIES.map((cat) => (
+            {CATEGORIES.map((cat, idx) => (
               <button
                 key={cat}
-                className={`filter-btn ${filter === cat ? "active" : ""}`}
-                onClick={() => setFilter(cat)}
+                className={`filter-btn ${filterIdx === idx ? "active" : ""}`}
+                onClick={() => setFilterIdx(idx)}
               >
                 {cat}
               </button>
@@ -70,19 +64,16 @@ export default function Projects({ projects, loading }: ProjectsProps) {
             ))}
           </div>
         ) : filtered.length === 0 ? (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="text-center py-24 glass-card"
           >
             <div className="text-5xl mb-4">🔍</div>
-            <p className="text-text-secondary">Энэ ангилалд төсөл олдсонгүй.</p>
+            <p className="text-text-secondary">{t.projects.empty}</p>
           </motion.div>
         ) : (
-          <motion.div 
-            layout
-            className="projects-grid"
-          >
+          <motion.div layout className="projects-grid">
             <AnimatePresence mode="popLayout">
               {filtered.map((project) => (
                 <ProjectCard key={project._id} project={project} />
@@ -96,8 +87,9 @@ export default function Projects({ projects, loading }: ProjectsProps) {
 }
 
 function ProjectCard({ project }: { project: Project }) {
+  const { t } = useLanguage();
   return (
-    <motion.article 
+    <motion.article
       layout
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
@@ -107,7 +99,7 @@ function ProjectCard({ project }: { project: Project }) {
     >
       <Link href={`/projects/${project._id}`} className="project-card-media">
         {project.featured && (
-          <span className="project-featured-badge">Онцлох</span>
+          <span className="project-featured-badge">{t.projects.featured}</span>
         )}
         {project.imageUrl ? (
           <Image
@@ -120,7 +112,7 @@ function ProjectCard({ project }: { project: Project }) {
         ) : (
           <div className="project-image-placeholder">
             <span>{project.category}</span>
-            <p className="text-xs">Screenshot хүлээгдэж байна</p>
+            <p className="text-xs">{t.projects.screenshot_waiting}</p>
           </div>
         )}
         <div className="absolute inset-0 bg-accent-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -159,7 +151,7 @@ function ProjectCard({ project }: { project: Project }) {
             href={`/projects/${project._id}`}
             className="project-card-cta project-card-cta-primary flex-1 text-center"
           >
-            Танилцах
+            {t.projects.view}
           </Link>
           <div className="flex gap-2">
             <a

@@ -10,6 +10,7 @@ import Certificates from "@/components/Certificates";
 import GitHubStats from "@/components/GitHubStats";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import { LanguageProvider } from "@/context/LanguageContext";
 import type { Project } from "@/types/project";
 
 export default function Home() {
@@ -27,7 +28,7 @@ export default function Home() {
   }, []);
 
   return (
-    <>
+    <LanguageProvider>
       <Navbar />
       <main>
         <Hero />
@@ -39,6 +40,6 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
-    </>
+    </LanguageProvider>
   );
 }

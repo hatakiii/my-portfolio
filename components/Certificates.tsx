@@ -5,11 +5,13 @@ import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Award, ExternalLink, X, ZoomIn } from 'lucide-react'
 import type { Certificate } from '@/types/certificate'
+import { useLanguage } from '@/context/LanguageContext'
 
 export default function Certificates() {
   const [certificates, setCertificates] = useState<Certificate[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedCert, setSelectedCert] = useState<Certificate | null>(null)
+  const { t } = useLanguage()
 
   useEffect(() => {
     fetch('/api/certificates')
@@ -26,7 +28,7 @@ export default function Certificates() {
       <section id="certificates" className="section pb-24">
         <div className="container">
           <div className="section-header">
-            <h2 className="section-title">Сертификатууд & Диплом</h2>
+            <h2 className="section-title">{t.certificates.title}</h2>
             <div className="section-divider" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -56,11 +58,11 @@ export default function Certificates() {
         >
           <div className="flex items-center gap-3 mb-2 justify-center">
             <Award className="text-accent-color w-6 h-6" />
-            <span className="text-accent-color font-medium tracking-wider uppercase text-sm">Credentials</span>
+            <span className="text-accent-color font-medium tracking-wider uppercase text-sm">{t.certificates.tag}</span>
           </div>
-          <h2 className="section-title text-center">Сертификатууд & Диплом</h2>
+          <h2 className="section-title text-center">{t.certificates.title}</h2>
           <p className="section-subtitle text-center max-w-2xl mx-auto mb-12">
-            Өөрийн мэргэжлийн ур чадвар болон боловсролын баталгааг эндээс харах боломжтой.
+            {t.certificates.subtitle}
           </p>
           <div className="section-divider mx-auto" />
         </motion.div>

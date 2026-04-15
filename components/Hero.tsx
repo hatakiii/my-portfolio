@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface GitHubData {
   contributionsCollection: {
@@ -16,6 +17,7 @@ interface GitHubData {
 
 export default function Hero() {
   const [githubData, setGithubData] = useState<GitHubData | null>(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     fetch("/api/github")
@@ -61,18 +63,17 @@ export default function Hero() {
           >
             <motion.div variants={itemVariants} className="hero-badge">
               <span className="hero-badge-dot" />
-              Backend дадлага + Full stack bootcamp
+              {t.hero.badge}
             </motion.div>
 
             <motion.h1 variants={itemVariants} className="hero-title">
-              Backend, frontend, full stack
+              {t.hero.title1}
               <br />
-              <span className="gradient-text">хөгжүүлэлтэд бэлэн</span>
+              <span className="gradient-text">{t.hero.title2}</span>
             </motion.h1>
 
             <motion.p variants={itemVariants} className="hero-subtitle">
-              Telcocom дадлага, Pinecone Academy багийн төслүүд, PR review болон
-              production workflow туршлагатай junior developer.
+              {t.hero.subtitle}
             </motion.p>
 
             <motion.div variants={itemVariants} className="hero-actions">
@@ -80,13 +81,13 @@ export default function Hero() {
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" />
                 </svg>
-                Төслүүдийг үзэх
+                {t.hero.cta_projects}
               </a>
               <a href="#contact" className="btn-outline">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" />
                 </svg>
-                Холбоо барих
+                {t.hero.cta_contact}
               </a>
             </motion.div>
 
@@ -95,19 +96,19 @@ export default function Hero() {
                 <span className="hero-stat-number">
                   {githubData ? githubData.repositoriesContributedTo.totalCount : "10+"}
                 </span>
-                <span className="hero-stat-label">Нийт төсөл</span>
+                <span className="hero-stat-label">{t.hero.stat_projects}</span>
               </div>
               <div className="hero-stat">
                 <span className="hero-stat-number">
                   {githubData ? githubData.contributionsCollection.contributionCalendar.totalContributions : "500+"}
                 </span>
-                <span className="hero-stat-label">Хувь нэмэр</span>
+                <span className="hero-stat-label">{t.hero.stat_contributions}</span>
               </div>
               <div className="hero-stat">
                 <span className="hero-stat-number">
                   {githubData ? githubData.mergedPRs.totalCount : "30+"}
                 </span>
-                <span className="hero-stat-label">PR нэгтгэсэн</span>
+                <span className="hero-stat-label">{t.hero.stat_prs}</span>
               </div>
             </motion.div>
           </motion.div>
@@ -134,8 +135,8 @@ export default function Hero() {
                     </div>
                     <div className="hero-visual-main">
                       <div className="hero-visual-panel hero-visual-panel-primary">
-                        <div className="hero-visual-kicker">Одоогийн фокус</div>
-                        <strong>Review-гээр батлагдсан код бичих</strong>
+                        <div className="hero-visual-kicker">{t.hero.focus_label}</div>
+                        <strong>{t.hero.focus_value}</strong>
                         <div className="hero-visual-bars">
                           <span />
                           <span />
@@ -165,16 +166,16 @@ export default function Hero() {
                 </div>
                 <div className="hero-proof-strip">
                   <div className="hero-proof-chip">
-                    <span>Туршлага</span>
-                    <strong>Telcocom дадлага</strong>
+                    <span>{t.hero.experience_label}</span>
+                    <strong>{t.hero.experience_value}</strong>
                   </div>
                   <div className="hero-proof-chip">
-                    <span>Давуу тал</span>
-                    <strong>Хурдан суралцагч</strong>
+                    <span>{t.hero.advantage_label}</span>
+                    <strong>{t.hero.advantage_value}</strong>
                   </div>
                   <div className="hero-proof-chip">
-                    <span>Хэл</span>
-                    <strong>IELTS 6.5</strong>
+                    <span>{t.hero.language_label}</span>
+                    <strong>{t.hero.language_value}</strong>
                   </div>
                 </div>
               </div>
@@ -185,11 +186,8 @@ export default function Hero() {
               whileHover={{ scale: 1.02 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
-              <strong>💼 Ажилд авагчдад</strong>
-              <p>
-                React, Next.js, Node.js, Java/Spring Boot stack дээр хурдан
-                дасан зохицож, review орчинд feature-ээ дуусгаж чадна.
-              </p>
+              <strong>{t.hero.for_recruiters_title}</strong>
+              <p>{t.hero.for_recruiters_body}</p>
             </motion.div>
           </motion.div>
         </div>

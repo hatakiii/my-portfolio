@@ -2,35 +2,19 @@
 
 import { motion } from 'framer-motion'
 import { Briefcase, Rocket, GraduationCap } from 'lucide-react'
+import { useLanguage } from '@/context/LanguageContext'
 
-const experiences = [
-  {
-    date: '2026.03 — 2026.04',
-    role: 'Backend Developer Intern',
-    company: 'Телкоком ХХК',
-    desc: 'Spring Boot, MongoDB, Java ашиглан CRUD REST API, JWT authentication бүхий систем хөгжүүлж, invoice list, call report, dashboard зэрэг production хэсгүүдэд сайжруулалт хийж staging орчинд нийлүүлсэн.',
-    icon: <Briefcase className="w-5 h-5 text-white" />,
-    color: 'var(--accent-primary)'
-  },
-  {
-    date: '2025.06 — 2026.02',
-    role: 'Full Stack Bootcamp Trainee',
-    company: 'Pinecone Academy',
-    desc: 'Next.js, GraphQL, PostgreSQL, NX monorepo, Cypress, Jest зэрэг орчинд 7 хүнтэй багуудаар ажиллаж, club platform, exam system, leave management system зэрэг төслүүд дээр feature хөгжүүлэлт, PR review, Agile workflow туршлага хуримтлуулсан.',
-    icon: <Rocket className="w-5 h-5 text-white" />,
-    color: 'var(--accent-secondary)'
-  },
-  {
-    date: '2018.09 — 2024.06',
-    role: 'Бакалавр, Хүний их эмч',
-    company: 'АШУҮИС',
-    desc: 'Эмчийн сургалтаар системтэй сэтгэлгээ, хариуцлага, хэрэглэгч буюу хүний хэрэгцээг анзаарах дадал суусан нь өнөөдрийн хөгжүүлэлтийн ажилд маань хүчтэй нөлөөлдөг.',
-    icon: <GraduationCap className="w-5 h-5 text-white" />,
-    color: '#10b981'
-  },
+const icons = [
+  <Briefcase className="w-5 h-5 text-white" />,
+  <Rocket className="w-5 h-5 text-white" />,
+  <GraduationCap className="w-5 h-5 text-white" />,
 ]
 
+const colors = ['var(--accent-primary)', 'var(--accent-secondary)', '#10b981']
+
 export default function Experience() {
+  const { t } = useLanguage()
+
   return (
     <section id="experience" className="section relative overflow-hidden">
       {/* Visual background element */}
@@ -43,32 +27,30 @@ export default function Experience() {
            viewport={{ once: true }}
            className="section-header text-center"
         >
-          <span className="section-tag">✦ Туршлага</span>
+          <span className="section-tag">{t.experience.tag}</span>
           <h2 className="section-title">
-            Ажлын <span className="gradient-text">Туршлага</span>
+            {t.experience.title} <span className="gradient-text">{t.experience.title_highlight}</span>
           </h2>
-          <p className="section-desc mx-auto">
-            Бодит багийн орчинд ажиллаж, production-д код нийлүүлсэн туршлага болон миний боловсролын түүх.
-          </p>
+          <p className="section-desc mx-auto">{t.experience.desc}</p>
         </motion.div>
 
         <div className="timeline max-w-4xl mx-auto">
-          {experiences.map((exp, i) => (
-            <motion.div 
-              key={i} 
+          {t.experience.items.map((exp, i) => (
+            <motion.div
+              key={i}
               className="timeline-item"
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
             >
-              <div 
+              <div
                 className="timeline-dot"
-                style={{ borderColor: exp.color }}
+                style={{ borderColor: colors[i] }}
               >
-                {exp.icon}
+                {icons[i]}
               </div>
-              <motion.div 
+              <motion.div
                 className="timeline-content group"
                 whileHover={{ x: 4 }}
               >
@@ -84,7 +66,7 @@ export default function Experience() {
                   </div>
                 </div>
                 <div className="timeline-desc">{exp.desc}</div>
-                
+
                 {/* Decorative corner glow */}
                 <div className="absolute top-0 right-0 w-24 h-24 bg-accent-primary/5 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
               </motion.div>
