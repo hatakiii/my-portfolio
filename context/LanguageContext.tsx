@@ -141,10 +141,8 @@ const mn: Translations = {
     title_name: "Хатанбаатар",
     desc: "Хурдан суралцдаг, бодит хэрэгцээг ойлгодог, frontend ба backend аль алинд нь хувь нэмэр оруулдаг full-stack хөгжүүлэгч.",
     role: "Full Stack Developer",
-    bio1:
-      "Анагаахын боловсролтой ч гэлээ карьераа software development-д төвлөрүүлж, Pinecone Academy bootcamp болон бодит дадлагын хугацаанд веб бүтээгдэхүүн хөгжүүлэлт дээр эрчимтэй өссөн.",
-    bio2:
-      "React, Next.js дээр суурилсан full stack ажилтай зэрэгцээд Java/Spring Boot-ийг бие даан сурч production-д ашигласан. Шинэ технологид маш богино хугацаанд дасан зохицох чадвартай.",
+    bio1: "Анагаахын боловсролтой ч гэлээ карьераа software development-д төвлөрүүлж, Pinecone Academy bootcamp болон бодит дадлагын хугацаанд веб бүтээгдэхүүн хөгжүүлэлт дээр эрчимтэй өссөн.",
+    bio2: "React, Next.js дээр суурилсан full stack ажилтай зэрэгцээд Java/Spring Boot-ийг бие даан сурч production-д ашигласан. Шинэ технологид маш богино хугацаанд дасан зохицох чадвартай.",
     tech_title: "Ашигладаг технологиуд",
     highlights: [
       {
@@ -200,12 +198,13 @@ const mn: Translations = {
   certificates: {
     tag: "Credentials",
     title: "Сертификатууд & Диплом",
-    subtitle: "Өөрийн мэргэжлийн ур чадвар болон боловсролын баталгааг эндээс харах боломжтой.",
+    subtitle:
+      "Өөрийн мэргэжлийн ур чадвар болон боловсролын баталгааг эндээс харах боломжтой.",
   },
   contact: {
     tag: "✦ Холбоо барих",
-    title: "Ажиллацгаая",
-    title_highlight: "Хамт",
+    title: "Хамт",
+    title_highlight: "Ажиллацгаая",
     desc: "Шинэ төсөл, ажлын санал эсвэл зүгээр л танилцахыг хүсвэл мессеж үлдээгээрэй. Би 24 цагийн дотор хариу өгөх болно.",
     phone_label: "Утас",
     location_label: "Байршил",
@@ -270,10 +269,8 @@ const en: Translations = {
     title_name: "Khatanbaatar",
     desc: "A fast learner who understands real-world needs and contributes across both frontend and backend as a full-stack developer.",
     role: "Full Stack Developer",
-    bio1:
-      "Despite a medical background, I focused my career on software development, growing intensively in web product development through the Pinecone Academy bootcamp and real-world internship.",
-    bio2:
-      "Alongside full-stack work built on React and Next.js, I independently learned Java/Spring Boot and used it in production. Capable of adapting to new technologies in a very short time.",
+    bio1: "Despite a medical background, I focused my career on software development, growing intensively in web product development through the Pinecone Academy bootcamp and real-world internship.",
+    bio2: "Alongside full-stack work built on React and Next.js, I independently learned Java/Spring Boot and used it in production. Capable of adapting to new technologies in a very short time.",
     tech_title: "Technologies I Use",
     highlights: [
       {
@@ -329,7 +326,8 @@ const en: Translations = {
   certificates: {
     tag: "Credentials",
     title: "Certificates & Diplomas",
-    subtitle: "Browse my professional skill validations and educational credentials.",
+    subtitle:
+      "Browse my professional skill validations and educational credentials.",
   },
   contact: {
     tag: "✦ Contact",
