@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { User, Target, Terminal, Mail } from "lucide-react";
 import { Github } from "./BrandIcons";
 import { useLanguage } from "@/context/LanguageContext";
+import type { LucideIcon } from "lucide-react";
 
 const skills = [
   "JavaScript", "TypeScript", "Java", "React", "Next.js",
@@ -14,107 +14,111 @@ const skills = [
 
 export default function About() {
   const { t } = useLanguage();
-
-  const highlightIcons = [
-    <Target className="w-5 h-5 text-accent-primary" />,
-    <Terminal className="w-5 h-5 text-accent-primary" />,
-    <User className="w-5 h-5 text-accent-primary" />,
-  ];
+  const highlightIcons: LucideIcon[] = [Target, Terminal, User];
 
   return (
-    <section id="about" className="section relative overflow-hidden">
-      {/* Background Glow */}
-      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-64 h-64 bg-accent-primary/10 blur-[120px] rounded-full pointer-events-none" />
-
-      <div className="container relative z-10">
+    <section id="about" className="section">
+      <div className="container">
         <motion.div
-           initial={{ opacity: 0, y: 20 }}
-           whileInView={{ opacity: 1, y: 0 }}
-           viewport={{ once: true }}
-           transition={{ duration: 0.6 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
         >
           <span className="section-tag">{t.about.tag}</span>
           <h2 className="section-title">
-            {t.about.title} <span className="gradient-text">{t.about.title_name}</span>
+            {t.about.title}{" "}
+            <span className="gradient-text">{t.about.title_name}</span>
           </h2>
           <p className="section-desc">{t.about.desc}</p>
         </motion.div>
 
-        <div className="about-grid">
-          {/* Avatar Area */}
+        <div className="about-grid" style={{ marginTop: 48 }}>
+          {/* Avatar */}
           <motion.div
-            className="about-image-wrapper"
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.96 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.5 }}
           >
             <div className="about-image-placeholder">
-              <span className="text-8xl">👨‍💻</span>
-              <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/80 to-transparent" />
+              <span>👨‍💻</span>
             </div>
           </motion.div>
 
-          {/* Info Area */}
+          {/* Info */}
           <div className="about-info">
-            <div className="space-y-4">
-              <h3 className="text-2xl font-bold text-white mb-4">{t.about.role}</h3>
-              <p className="about-text">{t.about.bio1}</p>
+            <div>
+              <h3 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: 12 }}>
+                {t.about.role}
+              </h3>
+              <p className="about-text" style={{ marginBottom: 10 }}>{t.about.bio1}</p>
               <p className="about-text">{t.about.bio2}</p>
             </div>
 
             <div className="about-highlights">
-              {t.about.highlights.map((item, idx) => (
-                <motion.article
-                  key={item.title}
-                  className="about-highlight-card"
-                  initial={{ opacity: 0, x: 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.1 }}
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="p-2 bg-accent-primary/10 rounded-lg">
-                      {highlightIcons[idx]}
+              {t.about.highlights.map((item, idx) => {
+                const Icon = highlightIcons[idx];
+                return (
+                  <motion.article
+                    key={item.title}
+                    className="about-highlight-card"
+                    initial={{ opacity: 0, x: 16 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.08 }}
+                  >
+                    <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+                      {Icon && (
+                        <div style={{
+                          width: 32, height: 32,
+                          display: "grid", placeItems: "center",
+                          background: "var(--accent-bg)",
+                          borderRadius: "var(--radius)",
+                          color: "var(--accent)",
+                          flexShrink: 0,
+                        }}>
+                          <Icon size={16} />
+                        </div>
+                      )}
+                      <div>
+                        <h4>{item.title}</h4>
+                        <p>{item.text}</p>
+                      </div>
                     </div>
-                    <div>
-                      <h4>{item.title}</h4>
-                      <p>{item.text}</p>
-                    </div>
-                  </div>
-                </motion.article>
-              ))}
+                  </motion.article>
+                );
+              })}
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4 text-text-secondary text-sm uppercase tracking-widest">
+              <p style={{
+                fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.16em",
+                textTransform: "uppercase", color: "var(--text-3)", marginBottom: 12
+              }}>
                 {t.about.tech_title}
-              </h4>
+              </p>
               <div className="skills-grid">
                 {skills.map((s) => (
-                  <motion.div
-                    key={s}
-                    className="skill-item"
-                    whileHover={{ scale: 1.05, borderColor: "var(--accent-primary)" }}
-                  >
+                  <div key={s} className="skill-item">
                     <div className="skill-dot" />
                     {s}
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-4 mt-4">
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
               <a
                 href="https://github.com/hatakiii"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-primary"
               >
-                <Github className="w-4 h-4" /> GitHub →
+                <Github size={16} /> GitHub
               </a>
               <a href="mailto:hbbaatar@gmail.com" className="btn-outline">
-                <Mail className="w-4 h-4" /> hbbaatar@gmail.com
+                <Mail size={16} /> hbbaatar@gmail.com
               </a>
             </div>
           </div>

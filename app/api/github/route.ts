@@ -1,4 +1,3 @@
-import { data } from "framer-motion/client";
 import { NextResponse } from "next/server";
 
 export async function GET() {

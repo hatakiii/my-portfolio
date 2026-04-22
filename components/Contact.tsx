@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Mail, Phone, MapPin, Send, Loader2, CheckCircle2 } from 'lucide-react'
 import { Github } from './BrandIcons'
@@ -21,165 +21,144 @@ export default function Contact() {
   }
 
   const contacts = [
-    { icon: <Mail className="w-5 h-5" />, label: 'Email', value: 'hbbaatar@gmail.com', href: 'mailto:hbbaatar@gmail.com' },
-    { icon: <Phone className="w-5 h-5" />, label: t.contact.phone_label, value: '+976 9522 1292', href: 'tel:+97695221292' },
-    { icon: <MapPin className="w-5 h-5" />, label: t.contact.location_label, value: t.contact.location_value, href: '#' },
-    { icon: <Github className="w-5 h-5" />, label: 'GitHub', value: 'github.com/hatakiii', href: 'https://github.com/hatakiii' },
+    { icon: <Mail size={17} />, label: 'Email', value: 'hbbaatar@gmail.com', href: 'mailto:hbbaatar@gmail.com' },
+    { icon: <Phone size={17} />, label: t.contact.phone_label, value: '+976 9522 1292', href: 'tel:+97695221292' },
+    { icon: <MapPin size={17} />, label: t.contact.location_label, value: t.contact.location_value, href: '#' },
+    { icon: <Github size={17} />, label: 'GitHub', value: 'github.com/hatakiii', href: 'https://github.com/hatakiii' },
   ]
 
   return (
-    <section id="contact" className="section relative overflow-hidden">
-      {/* Background Orbs */}
-      <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-accent-primary/10 blur-[120px] rounded-full pointer-events-none" />
-      <div className="absolute top-1/4 -left-24 w-64 h-64 bg-accent-secondary/5 blur-[100px] rounded-full pointer-events-none" />
-
-      <div className="container relative z-10">
+    <section id="contact" className="section">
+      <div className="container">
         <motion.div
-           initial={{ opacity: 0, y: 20 }}
-           whileInView={{ opacity: 1, y: 0 }}
-           viewport={{ once: true }}
-           className="section-header text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="section-header"
         >
           <span className="section-tag">{t.contact.tag}</span>
           <h2 className="section-title">
-            {t.contact.title} <span className="gradient-text">{t.contact.title_highlight}</span>
+            {t.contact.title}{' '}
+            <span className="gradient-text">{t.contact.title_highlight}</span>
           </h2>
-          <p className="section-desc mx-auto">{t.contact.desc}</p>
+          <p className="section-desc">{t.contact.desc}</p>
         </motion.div>
 
         <div className="contact-grid">
-          {/* Contact Info */}
+          {/* Contact info */}
           <motion.div
             className="contact-info"
-            initial={{ opacity: 0, x: -20 }}
+            initial={{ opacity: 0, x: -16 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
           >
-            <div className="space-y-4">
-              {contacts.map((c, idx) => (
-                <motion.a
-                  key={c.label}
-                  href={c.href}
-                  className="contact-item group"
-                  target={c.href.startsWith('http') ? '_blank' : '_self'}
-                  rel="noopener noreferrer"
-                  whileHover={{ x: 8 }}
-                >
-                  <div className="contact-icon text-accent-primary group-hover:text-white group-hover:bg-accent-primary transition-all duration-300">
-                    {c.icon}
-                  </div>
-                  <div>
-                    <div className="contact-label">{c.label}</div>
-                    <div className="contact-value group-hover:text-accent-primary transition-colors">
-                      {c.value}
-                    </div>
-                  </div>
-                </motion.a>
-              ))}
-            </div>
+            {contacts.map((c) => (
+              <a
+                key={c.label}
+                href={c.href}
+                className="contact-item"
+                target={c.href.startsWith('http') ? '_blank' : '_self'}
+                rel="noopener noreferrer"
+              >
+                <div className="contact-icon">{c.icon}</div>
+                <div>
+                  <div className="contact-label">{c.label}</div>
+                  <div className="contact-value">{c.value}</div>
+                </div>
+              </a>
+            ))}
 
-            {/* Quick availability card */}
-            <motion.div
-              className="glass-card p-8 mt-8 border-accent-primary/20 bg-accent-primary/5"
-              whileHover={{ scale: 1.02 }}
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <span className="relative flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-emerald opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-accent-emerald"></span>
-                </span>
-                <span className="font-bold text-accent-emerald text-sm uppercase tracking-wider">
+            {/* Availability */}
+            <div style={{ marginTop: 8, padding: '16px 18px', borderRadius: 'var(--radius)', border: '1px solid var(--border)', background: 'var(--accent-bg)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                <span style={{
+                  width: 8, height: 8, borderRadius: '50%',
+                  background: '#22c55e', display: 'inline-block',
+                }} />
+                <span style={{ fontSize: '0.78rem', fontWeight: 600, color: '#16a34a', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
                   {t.contact.available_badge}
                 </span>
               </div>
-              <p className="text-text-secondary text-sm leading-relaxed mb-0">
+              <p style={{ fontSize: '0.84rem', color: 'var(--text-2)', lineHeight: 1.6 }}>
                 {t.contact.available_desc}
               </p>
-            </motion.div>
+            </div>
           </motion.div>
 
-          {/* Form Area */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
+          {/* Form */}
+          <motion.form
+            className="contact-form"
+            onSubmit={handleSubmit}
+            initial={{ opacity: 0, x: 16 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="glass-card p-8 md:p-10"
+            transition={{ duration: 0.5 }}
           >
-            <form className="contact-form" onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label className="form-label" htmlFor="contact-name">{t.contact.name_label}</label>
-                <input
-                  id="contact-name"
-                  className="form-input"
-                  type="text"
-                  placeholder={t.contact.name_placeholder}
-                  value={form.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label className="form-label" htmlFor="contact-email">{t.contact.email_label}</label>
-                <input
-                  id="contact-email"
-                  className="form-input"
-                  type="email"
-                  placeholder="email@example.com"
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label className="form-label" htmlFor="contact-subject">{t.contact.subject_label}</label>
-                <input
-                  id="contact-subject"
-                  className="form-input"
-                  type="text"
-                  placeholder={t.contact.subject_placeholder}
-                  value={form.subject}
-                  onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label className="form-label" htmlFor="contact-message">{t.contact.message_label}</label>
-                <textarea
-                  id="contact-message"
-                  className="form-textarea"
-                  placeholder={t.contact.message_placeholder}
-                  value={form.message}
-                  onChange={(e) => setForm({ ...form, message: e.target.value })}
-                  required
-                />
-              </div>
+            <div className="form-group">
+              <label className="form-label" htmlFor="contact-name">{t.contact.name_label}</label>
+              <input
+                id="contact-name"
+                className="form-input"
+                type="text"
+                placeholder={t.contact.name_placeholder}
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label" htmlFor="contact-email">{t.contact.email_label}</label>
+              <input
+                id="contact-email"
+                className="form-input"
+                type="email"
+                placeholder="email@example.com"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label" htmlFor="contact-subject">{t.contact.subject_label}</label>
+              <input
+                id="contact-subject"
+                className="form-input"
+                type="text"
+                placeholder={t.contact.subject_placeholder}
+                value={form.subject}
+                onChange={(e) => setForm({ ...form, subject: e.target.value })}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label" htmlFor="contact-message">{t.contact.message_label}</label>
+              <textarea
+                id="contact-message"
+                className="form-textarea"
+                placeholder={t.contact.message_placeholder}
+                value={form.message}
+                onChange={(e) => setForm({ ...form, message: e.target.value })}
+                required
+              />
+            </div>
 
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                type="submit"
-                className="btn-primary w-full justify-center py-4 mt-2"
-                disabled={status === 'sending'}
-              >
-                {status === 'sending' ? (
-                  <>
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                    {t.contact.sending}
-                  </>
-                ) : status === 'sent' ? (
-                  <>
-                    <CheckCircle2 className="w-5 h-5" />
-                    {t.contact.sent}
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-5 h-5" />
-                    {t.contact.send}
-                  </>
-                )}
-              </motion.button>
-            </form>
-          </motion.div>
+            <button
+              type="submit"
+              className="btn-primary"
+              disabled={status === 'sending'}
+              style={{ width: '100%', justifyContent: 'center' }}
+            >
+              {status === 'sending' ? (
+                <><Loader2 size={17} className="animate-spin" /> {t.contact.sending}</>
+              ) : status === 'sent' ? (
+                <><CheckCircle2 size={17} /> {t.contact.sent}</>
+              ) : (
+                <><Send size={17} /> {t.contact.send}</>
+              )}
+            </button>
+          </motion.form>
         </div>
       </div>
     </section>

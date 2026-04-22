@@ -1,7 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Mail, Heart } from "lucide-react";
+import { Mail } from "lucide-react";
 import { Github, Linkedin } from "./BrandIcons";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -10,51 +9,54 @@ export default function Footer() {
   const { t } = useLanguage();
 
   const socialLinks = [
-    { icon: <Github className="w-5 h-5" />, href: "https://github.com/hatakiii", label: "GitHub" },
-    { icon: <Linkedin className="w-5 h-5" />, href: "#", label: "LinkedIn" },
-    { icon: <Mail className="w-5 h-5" />, href: "mailto:hbbaatar@gmail.com", label: "Email" },
+    { icon: <Github size={17} />, href: "https://github.com/hatakiii", label: "GitHub" },
+    { icon: <Linkedin size={17} />, href: "#", label: "LinkedIn" },
+    { icon: <Mail size={17} />, href: "mailto:hbbaatar@gmail.com", label: "Email" },
   ];
 
   return (
-    <footer className="footer relative overflow-hidden">
-      <div className="container relative z-10">
-        <div className="flex flex-col items-center py-12">
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="flex gap-6 mb-8"
-          >
-            {socialLinks.map((link, idx) => (
+    <footer className="footer">
+      <div className="container">
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 20 }}>
+          <div style={{ display: "flex", gap: 10 }}>
+            {socialLinks.map((link) => (
               <a
-                key={idx}
+                key={link.label}
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 bg-white/5 rounded-full border border-white/10 text-text-secondary hover:text-accent-primary hover:border-accent-primary hover:bg-accent-primary/5 transition-all duration-300"
                 aria-label={link.label}
+                style={{
+                  width: 36, height: 36,
+                  display: "grid", placeItems: "center",
+                  borderRadius: "var(--radius)",
+                  border: "1px solid var(--border)",
+                  color: "var(--text-2)",
+                  textDecoration: "none",
+                  transition: "border-color 0.2s, color 0.2s",
+                }}
+                onMouseEnter={e => {
+                  (e.currentTarget as HTMLElement).style.borderColor = 'var(--border-2)';
+                  (e.currentTarget as HTMLElement).style.color = 'var(--text)';
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)';
+                  (e.currentTarget as HTMLElement).style.color = 'var(--text-2)';
+                }}
               >
                 {link.icon}
               </a>
             ))}
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            className="text-center"
-          >
-            <p className="text-text-primary font-medium mb-2">
-              © {year} {t.footer.rights}
-            </p>
-            <p className="footer-copyright text-text-muted text-sm flex items-center justify-center gap-2">
-              {t.footer.built_with} <Heart className="w-4 h-4 text-accent-rose fill-accent-rose animate-pulse" /> using Next.js &amp; MongoDB
-            </p>
-          </motion.div>
+          <p style={{ fontSize: "0.84rem", color: "var(--text-3)" }}>
+            © {year} {t.footer.rights}
+          </p>
+          <p className="footer-copyright">
+            {t.footer.built_with} Next.js & MongoDB
+          </p>
         </div>
       </div>
-
-      {/* Decorative gradient line */}
-      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-accent-primary/30 to-transparent" />
     </footer>
   );
 }

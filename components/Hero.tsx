@@ -1,14 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import type { Variants } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 
 interface GitHubData {
   contributionsCollection: {
-    contributionCalendar: {
-      totalContributions: number;
-    };
+    contributionCalendar: { totalContributions: number };
   };
   pullRequests: { totalCount: number };
   mergedPRs: { totalCount: number };
@@ -22,87 +21,73 @@ export default function Hero() {
   useEffect(() => {
     fetch("/api/github")
       .then((res) => res.json())
-      .then((json) => {
-        if (json.success) {
-          setGithubData(json.data);
-        }
-      })
+      .then((json) => { if (json.success) setGithubData(json.data); })
       .catch((err) => console.error("Error fetching github stats:", err));
   }, []);
 
-  const containerVariants: any = {
+  const container: Variants = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.12, delayChildren: 0.1 },
-    },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
   };
 
-  const itemVariants: any = {
-    hidden: { opacity: 0, y: 30, filter: "blur(10px)" },
-    visible: {
-      opacity: 1,
-      y: 0,
-      filter: "blur(0px)",
-      transition: { type: "spring", stiffness: 80, damping: 20 },
-    },
+  const item: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
   };
 
   return (
     <section id="home" className="hero">
-      <div className="hero-bg-shape hero-bg-shape-1" />
-      <div className="hero-bg-shape hero-bg-shape-2" />
-
       <div className="container">
         <div className="hero-layout">
           <motion.div
             className="hero-content"
-            variants={containerVariants}
+            variants={container}
             initial="hidden"
             animate="visible"
           >
-            <motion.div variants={itemVariants} className="hero-badge">
+            <motion.div variants={item} className="hero-badge">
               <span className="hero-badge-dot" />
               {t.hero.badge}
             </motion.div>
 
-            <motion.h1 variants={itemVariants} className="hero-title">
+            <motion.h1 variants={item} className="hero-title">
               {t.hero.title1}
               <br />
               <span className="gradient-text">{t.hero.title2}</span>
             </motion.h1>
 
-            <motion.p variants={itemVariants} className="hero-subtitle">
+            <motion.p variants={item} className="hero-subtitle">
               {t.hero.subtitle}
             </motion.p>
 
-            <motion.div variants={itemVariants} className="hero-actions">
+            <motion.div variants={item} className="hero-actions">
               <a href="#projects" className="btn-primary">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" />
-                </svg>
                 {t.hero.cta_projects}
               </a>
               <a href="#contact" className="btn-outline">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" />
-                </svg>
                 {t.hero.cta_contact}
               </a>
             </motion.div>
 
-            <motion.div variants={itemVariants} className="hero-stats">
+            <motion.div variants={item} className="hero-stats">
               <div className="hero-stat">
                 <span className="hero-stat-number">
-                  {githubData ? githubData.repositoriesContributedTo.totalCount : "10+"}
+                  {githubData
+                    ? githubData.repositoriesContributedTo.totalCount
+                    : "10+"}
                 </span>
                 <span className="hero-stat-label">{t.hero.stat_projects}</span>
               </div>
               <div className="hero-stat">
                 <span className="hero-stat-number">
-                  {githubData ? githubData.contributionsCollection.contributionCalendar.totalContributions : "500+"}
+                  {githubData
+                    ? githubData.contributionsCollection.contributionCalendar
+                        .totalContributions
+                    : "500+"}
                 </span>
-                <span className="hero-stat-label">{t.hero.stat_contributions}</span>
+                <span className="hero-stat-label">
+                  {t.hero.stat_contributions}
+                </span>
               </div>
               <div className="hero-stat">
                 <span className="hero-stat-number">
@@ -110,84 +95,6 @@ export default function Hero() {
                 </span>
                 <span className="hero-stat-label">{t.hero.stat_prs}</span>
               </div>
-            </motion.div>
-          </motion.div>
-
-          <motion.div
-            className="hero-showcase"
-            initial={{ opacity: 0, scale: 0.95, x: 30 }}
-            animate={{ opacity: 1, scale: 1, x: 0 }}
-            transition={{ duration: 1, delay: 0.4, type: "spring", stiffness: 60 }}
-          >
-            <div className="hero-showcase-card hero-showcase-main">
-              <div className="hero-visual">
-                <div className="hero-visual-window">
-                  <div className="hero-visual-topbar">
-                    <span />
-                    <span />
-                    <span />
-                  </div>
-                  <div className="hero-visual-screen">
-                    <div className="hero-visual-sidebar">
-                      <div className="hero-visual-dot hero-visual-dot-active" />
-                      <div className="hero-visual-dot" />
-                      <div className="hero-visual-dot" />
-                    </div>
-                    <div className="hero-visual-main">
-                      <div className="hero-visual-panel hero-visual-panel-primary">
-                        <div className="hero-visual-kicker">{t.hero.focus_label}</div>
-                        <strong>{t.hero.focus_value}</strong>
-                        <div className="hero-visual-bars">
-                          <span />
-                          <span />
-                          <span />
-                        </div>
-                      </div>
-                      <div className="hero-visual-grid">
-                        <div className="hero-visual-card">
-                          <span className="hero-visual-card-label">Backend</span>
-                          <strong>Spring Boot</strong>
-                        </div>
-                        <div className="hero-visual-card">
-                          <span className="hero-visual-card-label">Frontend</span>
-                          <strong>Next.js</strong>
-                        </div>
-                        <div className="hero-visual-card">
-                          <span className="hero-visual-card-label">Workflow</span>
-                          <strong>PR Review</strong>
-                        </div>
-                        <div className="hero-visual-card">
-                          <span className="hero-visual-card-label">Testing</span>
-                          <strong>Cypress / Jest</strong>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="hero-proof-strip">
-                  <div className="hero-proof-chip">
-                    <span>{t.hero.experience_label}</span>
-                    <strong>{t.hero.experience_value}</strong>
-                  </div>
-                  <div className="hero-proof-chip">
-                    <span>{t.hero.advantage_label}</span>
-                    <strong>{t.hero.advantage_value}</strong>
-                  </div>
-                  <div className="hero-proof-chip">
-                    <span>{t.hero.language_label}</span>
-                    <strong>{t.hero.language_value}</strong>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <motion.div
-              className="hero-showcase-note"
-              whileHover={{ scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <strong>{t.hero.for_recruiters_title}</strong>
-              <p>{t.hero.for_recruiters_body}</p>
             </motion.div>
           </motion.div>
         </div>
