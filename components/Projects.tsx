@@ -37,9 +37,8 @@ export default function Projects({ projects, loading }: ProjectsProps) {
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="projects-header"
         >
           <div className="projects-header-left">
@@ -68,9 +67,8 @@ export default function Projects({ projects, loading }: ProjectsProps) {
         {/* Filter tabs */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2, duration: 0.5 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ delay: 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="projects-filters"
         >
           {CATEGORIES.map((cat, idx) => (
@@ -134,7 +132,8 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       initial={{ opacity: 0, y: 32 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.4, delay: index * 0.05 }}
+      transition={{ duration: 0.6, delay: (index % 3) * 0.1, ease: [0.16, 1, 0.3, 1] }}
+      whileHover={{ y: -4, transition: { duration: 0.3 } }}
       className={`project-card group ${project.featured ? "project-card--featured" : ""}`}
     >
       {/* Image / Media */}

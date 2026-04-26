@@ -46,8 +46,8 @@ export default function Certificates() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="section-header"
           style={{ textAlign: 'center' }}
         >
@@ -65,8 +65,8 @@ export default function Certificates() {
               key={cert._id}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.08, duration: 0.5 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ delay: index * 0.08, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               style={{
                 borderRadius: 'var(--radius-lg)',
                 border: '1px solid var(--border)',

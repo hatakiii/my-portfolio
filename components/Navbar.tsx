@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -54,7 +55,12 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
+    <motion.nav 
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      className={`navbar ${scrolled ? "scrolled" : ""}`}
+    >
       <div className="container navbar-inner">
         <a href="#home" className="navbar-logo">
           K.
@@ -98,6 +104,6 @@ export default function Navbar() {
           </button>
         </div>
       </div>
-    </nav>
+    </motion.nav>
   );
 }

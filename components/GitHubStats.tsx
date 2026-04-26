@@ -82,7 +82,7 @@ function DonutChart({
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
       <svg width={128} height={128} viewBox="0 0 128 128">
-        <circle cx="64" cy="64" r={r} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="18" />
+        <circle cx="64" cy="64" r={r} fill="none" stroke="rgba(0,0,0,0.06)" strokeWidth="18" />
         {arcs.map((a, i) => (
           <motion.circle
             key={i}
@@ -99,10 +99,10 @@ function DonutChart({
             viewport={{ once: true }}
           />
         ))}
-        <text x="64" y="60" textAnchor="middle" fill="white" fontSize="16" fontWeight="700" fontFamily="Inter, sans-serif">
+        <text x="64" y="60" textAnchor="middle" fill="#111" fontSize="16" fontWeight="700" fontFamily="Inter, sans-serif">
           {(open + closed + merged).toLocaleString()}
         </text>
-        <text x="64" y="76" textAnchor="middle" fill="rgba(255,255,255,0.45)" fontSize="10" fontFamily="Inter, sans-serif">
+        <text x="64" y="76" textAnchor="middle" fill="rgba(0,0,0,0.45)" fontSize="10" fontFamily="Inter, sans-serif">
           Total PRs
         </text>
       </svg>
@@ -112,10 +112,10 @@ function DonutChart({
           <div key={s.label} style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <div style={{ width: 10, height: 10, borderRadius: "50%", background: s.color, flexShrink: 0 }} />
             <div>
-              <div style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600 }}>
+              <div style={{ fontSize: 11, color: "rgba(0,0,0,0.45)", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600 }}>
                 {s.label}
               </div>
-              <div style={{ fontSize: 18, fontWeight: 700, color: "#fff", lineHeight: 1.1 }}>
+              <div style={{ fontSize: 18, fontWeight: 700, color: "#111", lineHeight: 1.1 }}>
                 {s.value.toLocaleString()}
               </div>
             </div>
@@ -146,11 +146,11 @@ function Heatmap({ weeks }: { weeks: GitHubData["contributionsCollection"]["cont
 
   // Green palette tuned for dark background
   const colorMap: Record<string, string> = {
-    "#ebedf0": "rgba(255,255,255,0.07)",
-    "#9be9a8": "#2ea84388",
-    "#40c463": "#2ea843bb",
-    "#30a14e": "#2ea843",
-    "#216e39": "#26a641",
+    "#ebedf0": "rgba(0,0,0,0.06)",
+    "#9be9a8": "#9be9a8",
+    "#40c463": "#40c463",
+    "#30a14e": "#30a14e",
+    "#216e39": "#216e39",
   };
 
   return (
@@ -161,7 +161,7 @@ function Heatmap({ weeks }: { weeks: GitHubData["contributionsCollection"]["cont
           {weeks.map((_, wIdx) => {
             const lbl = monthLabels.find((m) => m.colIndex === wIdx);
             return (
-              <div key={wIdx} style={{ width: STEP, flexShrink: 0, fontSize: 10, fontWeight: 600, color: "rgba(255,255,255,0.3)", letterSpacing: "0.04em" }}>
+              <div key={wIdx} style={{ width: STEP, flexShrink: 0, fontSize: 10, fontWeight: 600, color: "rgba(0,0,0,0.3)", letterSpacing: "0.04em" }}>
                 {lbl ? lbl.label : ""}
               </div>
             );
@@ -172,7 +172,7 @@ function Heatmap({ weeks }: { weeks: GitHubData["contributionsCollection"]["cont
           {/* Day labels */}
           <div style={{ display: "flex", flexDirection: "column", gap: GAP, marginRight: 8 }}>
             {DAY_LABELS.map((lbl, i) => (
-              <div key={i} style={{ height: CELL, lineHeight: `${CELL}px`, width: 24, fontSize: 10, color: "rgba(255,255,255,0.28)", textAlign: "right", fontWeight: 500 }}>
+              <div key={i} style={{ height: CELL, lineHeight: `${CELL}px`, width: 24, fontSize: 10, color: "rgba(0,0,0,0.28)", textAlign: "right", fontWeight: 500 }}>
                 {lbl}
               </div>
             ))}
@@ -292,7 +292,9 @@ export default function GitHubStats() {
     );
   }
 
-  const { totalContributions, weeks } = data.contributionsCollection.contributionCalendar;
+  const { totalContributions, weeks: allWeeks } = data.contributionsCollection.contributionCalendar;
+  // Show only the last 24 weeks (approx 6 months) for a "recent" view
+  const weeks = allWeeks.slice(-24);
 
   const stats = [
     { icon: <GitPullRequest size={18} />, label: "Нийт хувь нэмэр", value: totalContributions, accent: "#8b5cf6" },
@@ -310,7 +312,8 @@ export default function GitHubStats() {
         <motion.header
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           style={{ display: "flex", flexDirection: "column", gap: 0, marginBottom: 48 }}
         >
           <span className="section-tag">Үйл ажиллагаа</span>
@@ -337,28 +340,27 @@ export default function GitHubStats() {
         <motion.div
           initial={{ opacity: 0, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           style={{
-            background: "linear-gradient(145deg, #0d1117 0%, #161b22 100%)",
-            border: "1px solid rgba(255,255,255,0.08)",
+            background: "linear-gradient(145deg, #fdfbf7 0%, #f5f0e8 100%)",
+            border: "1px solid rgba(0,0,0,0.08)",
             borderRadius: 24,
-            overflow: "hidden",
-            boxShadow: "0 24px 80px rgba(0,0,0,0.18)",
+            boxShadow: "0 24px 80px rgba(0,0,0,0.08)",
           }}
         >
-          {/* ── Top bar ─────────────────────────────────────────── */}
           <div style={{
             display: "flex",
             alignItems: "center",
             gap: 8,
             padding: "14px 24px",
-            borderBottom: "1px solid rgba(255,255,255,0.06)",
-            background: "rgba(255,255,255,0.02)",
+            borderBottom: "1px solid rgba(0,0,0,0.06)",
+            background: "rgba(0,0,0,0.02)",
           }}>
             {["#ff5f57","#febc2e","#28c840"].map((c, i) => (
-              <div key={i} style={{ width: 11, height: 11, borderRadius: "50%", background: c }} />
+              <div key={i} style={{ width: 11, height: 11, borderRadius: "50%", background: c, border: "1px solid rgba(0,0,0,0.05)" }} />
             ))}
-            <div style={{ marginLeft: 12, display: "flex", alignItems: "center", gap: 8, color: "rgba(255,255,255,0.3)", fontSize: 12, fontFamily: "'JetBrains Mono', monospace" }}>
+            <div style={{ marginLeft: 12, display: "flex", alignItems: "center", gap: 8, color: "rgba(0,0,0,0.3)", fontSize: 12, fontFamily: "'JetBrains Mono', monospace" }}>
               <GitHubIcon size={13} />
               github.com / hatakiii
             </div>
@@ -371,12 +373,12 @@ export default function GitHubStats() {
                 key={i}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.09 }}
-                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                viewport={{ once: true, margin: "-50px" }}
                 style={{
                   padding: "28px 24px",
-                  borderRight: i < stats.length - 1 ? "1px solid rgba(255,255,255,0.06)" : undefined,
-                  borderBottom: "1px solid rgba(255,255,255,0.06)",
+                  borderRight: i < stats.length - 1 ? "1px solid rgba(0,0,0,0.06)" : undefined,
+                  borderBottom: "1px solid rgba(0,0,0,0.06)",
                   position: "relative",
                   overflow: "hidden",
                 }}
@@ -386,11 +388,11 @@ export default function GitHubStats() {
 
                 <div style={{ display: "flex", alignItems: "center", gap: 8, color: s.accent, marginBottom: 12 }}>
                   {s.icon}
-                  <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.38)" }}>
+                  <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(0,0,0,0.38)" }}>
                     {s.label}
                   </span>
                 </div>
-                <div style={{ fontSize: "2.2rem", fontWeight: 800, color: "#fff", lineHeight: 1, fontFeatureSettings: '"tnum"' }}>
+                <div style={{ fontSize: "2.2rem", fontWeight: 800, color: "#111", lineHeight: 1, fontFeatureSettings: '"tnum"' }}>
                   <Counter to={s.value} />
                 </div>
               </motion.div>
@@ -398,12 +400,12 @@ export default function GitHubStats() {
           </div>
 
           {/* ── Middle section: Donut + Heatmap ─────────────────── */}
-          <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 0 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 0 }}>
 
             {/* Donut */}
-            <div style={{ padding: "32px 32px", borderRight: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(255,255,255,0.06)", display: "flex", flexDirection: "column", gap: 20, minWidth: 260 }}>
+            <div style={{ padding: "32px 32px", borderRight: "1px solid rgba(0,0,0,0.06)", borderBottom: "1px solid rgba(0,0,0,0.06)", display: "flex", flexDirection: "column", gap: 20 }}>
               <div>
-                <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "rgba(0,0,0,0.35)", marginBottom: 4 }}>
                   PR Задаргаа
                 </div>
               </div>
@@ -415,23 +417,22 @@ export default function GitHubStats() {
             </div>
 
             {/* Heatmap */}
-            <div style={{ padding: "32px 28px 28px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+            <div style={{ padding: "32px 28px 28px", borderBottom: "1px solid rgba(0,0,0,0.06)" }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20, flexWrap: "wrap", gap: 12 }}>
                 <div>
-                  <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "rgba(255,255,255,0.35)", marginBottom: 4 }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "rgba(0,0,0,0.35)", marginBottom: 4 }}>
                     Хувь нэмрийн хүснэгт
                   </div>
-                  <div style={{ color: "#fff", fontWeight: 700, fontSize: "1rem" }}>
-                    <Counter to={totalContributions} /> <span style={{ color: "rgba(255,255,255,0.4)", fontWeight: 500, fontSize: "0.85rem" }}>өнгөрсөн нэг жилд</span>
+                  <div style={{ color: "#111", fontWeight: 700, fontSize: "1rem" }}>
+                    <Counter to={totalContributions} /> <span style={{ color: "rgba(0,0,0,0.4)", fontWeight: 500, fontSize: "0.85rem" }}>сүүлийн 6 сард</span>
                   </div>
                 </div>
-                {/* Legend */}
                 <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                  <span style={{ fontSize: 10, color: "rgba(255,255,255,0.3)", marginRight: 4 }}>Бага</span>
-                  {["rgba(255,255,255,0.07)","#2ea84360","#2ea843aa","#2ea843","#26a641"].map((c, i) => (
+                  <span style={{ fontSize: 10, color: "rgba(0,0,0,0.3)", marginRight: 4 }}>Бага</span>
+                  {["rgba(0,0,0,0.06)","#9be9a8","#40c463","#30a14e","#216e39"].map((c, i) => (
                     <div key={i} style={{ width: 11, height: 11, background: c, borderRadius: 2 }} />
                   ))}
-                  <span style={{ fontSize: 10, color: "rgba(255,255,255,0.3)", marginLeft: 4 }}>Их</span>
+                  <span style={{ fontSize: 10, color: "rgba(0,0,0,0.3)", marginLeft: 4 }}>Их</span>
                 </div>
               </div>
 
@@ -439,14 +440,13 @@ export default function GitHubStats() {
             </div>
           </div>
 
-          {/* ── Footer strip ─────────────────────────────────────── */}
           <div style={{ padding: "14px 28px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-            <div style={{ fontSize: 12, color: "rgba(255,255,255,0.25)" }}>
+            <div style={{ fontSize: 12, color: "rgba(0,0,0,0.25)" }}>
               GitHub GraphQL API · Өнгөрсөн 365 хоног
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
               <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#26a641", boxShadow: "0 0 6px #26a641" }} />
-              <span style={{ fontSize: 12, color: "rgba(255,255,255,0.3)" }}>Live data</span>
+              <span style={{ fontSize: 12, color: "rgba(0,0,0,0.3)" }}>Live data</span>
             </div>
           </div>
         </motion.div>
@@ -458,9 +458,9 @@ export default function GitHubStats() {
           #github [style*="grid-template-columns: auto 1fr"] {
             grid-template-columns: 1fr !important;
           }
-          #github [style*="border-right: 1px solid rgba(255,255,255,0.06)"] {
+          #github [style*="border-right: 1px solid rgba(0,0,0,0.06)"] {
             border-right: none !important;
-            border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+            border-bottom: 1px solid rgba(0,0,0,0.06) !important;
           }
         }
       `}</style>

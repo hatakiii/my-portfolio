@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { Mail } from "lucide-react";
 import { Github, Linkedin } from "./BrandIcons";
 import { useLanguage } from "@/context/LanguageContext";
@@ -15,9 +16,15 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="footer">
+    <footer className="footer" style={{ padding: "64px 0", borderTop: "1px solid var(--border)" }}>
       <div className="container">
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 20 }}>
+        <motion.div 
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 20 }}
+        >
           <div style={{ display: "flex", gap: 10 }}>
             {socialLinks.map((link) => (
               <a
@@ -55,7 +62,7 @@ export default function Footer() {
           <p className="footer-copyright">
             {t.footer.built_with} Next.js & MongoDB
           </p>
-        </div>
+        </motion.div>
       </div>
     </footer>
   );
