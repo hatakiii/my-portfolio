@@ -34,7 +34,7 @@ interface Toast {
   type: 'success' | 'error'
 }
 
-const categories = ['Web App', 'E-commerce', 'Dashboard', 'Mobile', 'API', 'Other']
+const categories = ['Web App', 'UI/UX Design', 'E-commerce', 'Dashboard', 'Mobile', 'API', 'Other']
 
 export default function ProjectManager() {
   const [projects, setProjects] = useState<Project[]>([])

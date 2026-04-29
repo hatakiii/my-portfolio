@@ -14,8 +14,8 @@ interface ProjectsProps {
   loading: boolean;
 }
 
-const CATEGORIES_EN = ["All", "Web App", "E-commerce", "Dashboard", "Mobile", "API", "Other"];
-const CATEGORIES_MN = ["Бүгд", "Web App", "E-commerce", "Dashboard", "Mobile", "API", "Other"];
+const CATEGORIES_EN = ["All", "Web App", "UI/UX Design", "E-commerce", "Dashboard", "Mobile", "API", "Other"];
+const CATEGORIES_MN = ["Бүгд", "Web App", "UI/UX Design", "E-commerce", "Dashboard", "Mobile", "API", "Other"];
 
 export default function Projects({ projects, loading }: ProjectsProps) {
   const { lang, t } = useLanguage();
@@ -275,6 +275,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 function getCategoryIcon(cat: string) {
   const icons: Record<string, string> = {
     "Web App": "🌐",
+    "UI/UX Design": "🎨",
     "E-commerce": "🛒",
     "Dashboard": "📊",
     "Mobile": "📱",
